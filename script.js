@@ -2,16 +2,20 @@ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=matchMedia('(pointer:fine)').matches;
 // Reversible reveal: elements animate in and out as the visitor scrolls in either direction.
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.13});
-document.querySelectorAll('.reveal,.event').forEach(el=>observer.observe(el));
+document.querySelectorAll('.reveal,.event,.keyboard-build').forEach(el=>observer.observe(el));
 // Single-piece jelly cursor: one deforming blob, never layered circles or bubbles.
 const blob=document.querySelector('.cursor-blob');
 if(blob&&finePointer&&!reduceMotion){
  document.body.classList.add('custom-cursor');
  let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty,vx=0,vy=0,active=false;
- addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;if(!active){x=tx;y=ty;active=true;blob.classList.add('active')}});
+ function moveJelly(e){tx=e.clientX;ty=e.clientY;if(!active){x=tx;y=ty;active=true}document.body.classList.add('custom-cursor');blob.classList.add('active')}
+ addEventListener('pointermove',moveJelly);
+ addEventListener('pointerenter',e=>{document.body.classList.add('custom-cursor');moveJelly(e)});
+ addEventListener('pointerleave',()=>{blob.classList.remove('active','hover','press');document.body.classList.remove('custom-cursor');active=false});
+ addEventListener('focus',()=>{document.body.classList.remove('custom-cursor');blob.classList.remove('active');active=false});
  addEventListener('pointerdown',()=>blob.classList.add('press'));
  addEventListener('pointerup',()=>blob.classList.remove('press'));
- addEventListener('blur',()=>blob.classList.remove('active'));
+ addEventListener('blur',()=>{blob.classList.remove('active','hover','press');document.body.classList.remove('custom-cursor');active=false});
  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('pointerenter',()=>blob.classList.add('hover'));el.addEventListener('pointerleave',()=>blob.classList.remove('hover'))});
  function cursorLoop(){
   const dx=tx-x,dy=ty-y;
