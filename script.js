@@ -3,23 +3,25 @@ const finePointer=matchMedia('(pointer:fine)').matches;
 // Reversible reveal: elements animate in and out as the visitor scrolls in either direction.
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.13});
 document.querySelectorAll('.reveal,.event').forEach(el=>observer.observe(el));
-// Gooey pointer: hide the operating-system pointer only on fine-pointer devices.
+// Single-piece jelly cursor: one deforming blob, never layered circles or bubbles.
 const blob=document.querySelector('.cursor-blob');
 if(blob&&finePointer&&!reduceMotion){
  document.body.classList.add('custom-cursor');
- let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty,vx=0,vy=0,px=tx,py=ty,active=false;
+ let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty,vx=0,vy=0,active=false;
  addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;if(!active){x=tx;y=ty;active=true;blob.classList.add('active')}});
  addEventListener('pointerdown',()=>blob.classList.add('press'));
  addEventListener('pointerup',()=>blob.classList.remove('press'));
  addEventListener('blur',()=>blob.classList.remove('active'));
  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('pointerenter',()=>blob.classList.add('hover'));el.addEventListener('pointerleave',()=>blob.classList.remove('hover'))});
  function cursorLoop(){
-  const dx=tx-x,dy=ty-y;vx=(vx+dx*.145)*.77;vy=(vy+dy*.145)*.77;x+=vx;y+=vy;
-  const speed=Math.hypot(vx,vy),stretch=Math.min(speed*.041,.9),angle=Math.atan2(vy,vx)*180/Math.PI;
-  const wobble=Math.sin(performance.now()*.021+speed*.7)*Math.min(speed*.0022,.12);
+  const dx=tx-x,dy=ty-y;
+  vx=(vx+dx*.16)*.72;vy=(vy+dy*.16)*.72;
+  x+=vx;y+=vy;
+  const speed=Math.hypot(vx,vy),stretch=Math.min(speed*.024,.42),angle=Math.atan2(vy,vx)*180/Math.PI;
+  const wobble=Math.sin(performance.now()*.018+speed*.35)*Math.min(speed*.0012,.055);
   blob.style.left=x+'px';blob.style.top=y+'px';
-  blob.style.borderRadius=(49+stretch*12)+'% '+(51-stretch*17)+'% '+(46+stretch*17)+'% '+(54-stretch*12)+'% / '+(47-stretch*12)+'% '+(53+stretch*15)+'% '+(55-stretch*14)+'% '+(45+stretch*11)+'%';
-  blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+stretch*.31+wobble)+','+(1-stretch*.31-wobble*.4)+')';
+  blob.style.borderRadius=(50+stretch*11)+'% '+(50-stretch*13)+'% '+(47+stretch*13)+'% '+(53-stretch*11)+'% / '+(49-stretch*9)+'% '+(51+stretch*10)+'% '+(54-stretch*10)+'% '+(46+stretch*9)+'%';
+  blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+stretch*.24+wobble)+','+(1-stretch*.17-wobble*.3)+')';
   requestAnimationFrame(cursorLoop);
  }
  cursorLoop();
