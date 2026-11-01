@@ -14,29 +14,36 @@ if(blob&&finePointer&&!reduceMotion){
  addEventListener('blur',()=>blob.classList.remove('active'));
  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('pointerenter',()=>blob.classList.add('hover'));el.addEventListener('pointerleave',()=>blob.classList.remove('hover'))});
  function cursorLoop(){
-  const dx=tx-x,dy=ty-y;vx=(vx+dx*.19)*.69;vy=(vy+dy*.19)*.69;x+=vx;y+=vy;
-  const speed=Math.hypot(vx,vy),stretch=Math.min(speed*.026,.62),angle=Math.atan2(vy,vx)*180/Math.PI;
-  const wobble=Math.sin(performance.now()*.018+speed)*Math.min(speed*.0015,.08);
-  const rx=49+stretch*18,ry=51-stretch*19;
+  const dx=tx-x,dy=ty-y;vx=(vx+dx*.145)*.77;vy=(vy+dy*.145)*.77;x+=vx;y+=vy;
+  const speed=Math.hypot(vx,vy),stretch=Math.min(speed*.041,.9),angle=Math.atan2(vy,vx)*180/Math.PI;
+  const wobble=Math.sin(performance.now()*.021+speed*.7)*Math.min(speed*.0022,.12);
   blob.style.left=x+'px';blob.style.top=y+'px';
-  blob.style.borderRadius=(50+stretch*9)+'% '+(50-stretch*13)+'% '+(48+stretch*13)+'% '+(52-stretch*9)+'% / '+(48-stretch*9)+'% '+(52+stretch*12)+'% '+(54-stretch*11)+'% '+(46+stretch*8)+'%';
-  blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+stretch*.22+wobble)+','+(1-stretch*.23-wobble*.35)+')';
+  blob.style.borderRadius=(49+stretch*12)+'% '+(51-stretch*17)+'% '+(46+stretch*17)+'% '+(54-stretch*12)+'% / '+(47-stretch*12)+'% '+(53+stretch*15)+'% '+(55-stretch*14)+'% '+(45+stretch*11)+'%';
+  blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+stretch*.31+wobble)+','+(1-stretch*.31-wobble*.4)+')';
   requestAnimationFrame(cursorLoop);
  }
  cursorLoop();
 }else if(blob){blob.remove()}
-// Interactive 3D keyboard. Hover previews a key; click/keyboard press selects it.
+// Interactive 3D keyboard. Hover previews; clicking the selected key again switches it off.
 const keys=[...document.querySelectorAll('.key')],display=document.querySelector('.keyboard-display'),skillName=document.getElementById('skillName'),skillDetail=document.getElementById('skillDetail');
-function activateKey(key,selected=false){
- if(selected){keys.forEach(k=>k.classList.toggle('active',k===key));}
- skillName.textContent=key.dataset.skill;skillDetail.textContent=key.dataset.detail;display.classList.add('has-selection');
-}
+let selectedKey=null;
+function showKey(key){skillName.textContent=key.dataset.skill;skillDetail.textContent=key.dataset.detail;display.classList.add('has-selection')}
+function clearKeyDisplay(){skillName.textContent='SELECT A KEY';skillDetail.textContent='Press or hover over a key to inspect the skill.';display.classList.remove('has-selection')}
+function updateSelected(){keys.forEach(k=>k.classList.toggle('active',k===selectedKey))}
 keys.forEach(key=>{
- key.addEventListener('pointerenter',()=>activateKey(key));
- key.addEventListener('focus',()=>activateKey(key));
- key.addEventListener('click',()=>{activateKey(key,true);key.classList.add('pressed');setTimeout(()=>key.classList.remove('pressed'),130)});
- key.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){activateKey(key,true)}});
- key.addEventListener('pointerleave',()=>{if(!keys.some(k=>k.classList.contains('active'))){skillName.textContent='SELECT A KEY';skillDetail.textContent='Press or hover over a key to inspect the skill.';display.classList.remove('has-selection')}});
+ key.addEventListener('pointerenter',()=>showKey(key));
+ key.addEventListener('focus',()=>showKey(key));
+ key.addEventListener('click',()=>{
+  selectedKey=selectedKey===key?null:key;
+  updateSelected();
+  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
+ });
+ key.addEventListener('pointerleave',()=>{
+  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
+ });
+ key.addEventListener('blur',()=>{
+  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
+ });
 });
 // Rotating digital globe.
 const wc=document.getElementById('worldCanvas'),wctx=wc.getContext('2d');let ws;
