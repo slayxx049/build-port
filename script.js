@@ -57,3 +57,16 @@ const historySection=document.getElementById('history'),timeline=historySection.
 function updateTimeline(){progressFrame=false;const r=timeline.getBoundingClientRect(),vh=innerHeight;const start=vh*.78,end=-r.height+vh*.22;const p=Math.max(0,Math.min(1,(start-r.top)/(start-end)));timeline.style.setProperty('--timeline-progress',p.toFixed(4))}
 function requestTimelineUpdate(){if(!progressFrame){progressFrame=true;requestAnimationFrame(updateTimeline)}}
 addEventListener('scroll',requestTimelineUpdate,{passive:true});addEventListener('resize',requestTimelineUpdate);updateTimeline();
+
+/* Move a subtle, low-intensity neon pool with the pointer inside project cards. */
+document.querySelectorAll('.projects .card').forEach(card=>{
+ card.addEventListener('pointermove',event=>{
+  const rect=card.getBoundingClientRect();
+  card.style.setProperty('--glow-x',((event.clientX-rect.left)/rect.width*100)+'%');
+  card.style.setProperty('--glow-y',((event.clientY-rect.top)/rect.height*100)+'%');
+ });
+ card.addEventListener('pointerleave',()=>{
+  card.style.setProperty('--glow-x','50%');
+  card.style.setProperty('--glow-y','50%');
+ });
+});
