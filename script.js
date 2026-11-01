@@ -30,27 +30,17 @@ if(blob&&finePointer&&!reduceMotion){
  }
  cursorLoop();
 }else if(blob){blob.remove()}
-// Interactive 3D keyboard. Hover previews; clicking the selected key again switches it off.
-const keys=[...document.querySelectorAll('.key')],display=document.querySelector('.keyboard-display'),skillName=document.getElementById('skillName'),skillDetail=document.getElementById('skillDetail');
+// Interactive 3D keyboard. Details appear only after a key is clicked.
+const keys=[...document.querySelectorAll('.key')],info=document.getElementById('skillInfo'),skillName=document.getElementById('skillName'),skillDetail=document.getElementById('skillDetail');
 let selectedKey=null;
-function showKey(key){skillName.textContent=key.dataset.skill;skillDetail.textContent=key.dataset.detail;display.classList.add('has-selection')}
-function clearKeyDisplay(){skillName.textContent='SELECT A KEY';skillDetail.textContent='Press or hover over a key to inspect the skill.';display.classList.remove('has-selection')}
+function showKey(key){skillName.textContent=key.dataset.skill;skillDetail.textContent=key.dataset.detail;info.hidden=false}
+function hideKeyInfo(){info.hidden=true;skillName.textContent='';skillDetail.textContent=''}
 function updateSelected(){keys.forEach(k=>k.classList.toggle('active',k===selectedKey))}
-keys.forEach(key=>{
- key.addEventListener('pointerenter',()=>showKey(key));
- key.addEventListener('focus',()=>showKey(key));
- key.addEventListener('click',()=>{
-  selectedKey=selectedKey===key?null:key;
-  updateSelected();
-  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
- });
- key.addEventListener('pointerleave',()=>{
-  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
- });
- key.addEventListener('blur',()=>{
-  if(selectedKey)showKey(selectedKey);else clearKeyDisplay();
- });
-});
+keys.forEach(key=>key.addEventListener('click',()=>{
+ selectedKey=selectedKey===key?null:key;
+ updateSelected();
+ if(selectedKey)showKey(selectedKey);else hideKeyInfo();
+}));
 // Rotating digital globe.
 const wc=document.getElementById('worldCanvas'),wctx=wc.getContext('2d');let ws;
 function size(c){const d=Math.min(devicePixelRatio||1,2),r=c.getBoundingClientRect();c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);return{w:c.width,h:c.height,d}}
