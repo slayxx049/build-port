@@ -5,7 +5,7 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 const blob=document.querySelector('.cursor-blob');let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty,vx=0,vy=0;
 addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY});
 document.querySelectorAll('a').forEach(a=>{a.addEventListener('pointerenter',()=>blob.classList.add('hover'));a.addEventListener('pointerleave',()=>blob.classList.remove('hover'))});
-function cursorLoop(){let dx=tx-x,dy=ty-y;vx=(vx+dx*.16)*.72;vy=(vy+dy*.72)*.72;x+=vx;y+=vy;let speed=Math.hypot(vx,vy),s=Math.min(speed*.018,.23),angle=Math.atan2(vy,vx)*180/Math.PI;blob.style.left=x+'px';blob.style.top=y+'px';blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+s)+','+(1-s*.55)+')';requestAnimationFrame(cursorLoop)}
+function cursorLoop(){let dx=tx-x,dy=ty-y;vx=(vx+dx*.16)*.72;vy=(vy+dy*.16)*.72;x+=vx;y+=vy;let speed=Math.hypot(vx,vy),s=Math.min(speed*.018,.23),angle=Math.atan2(vy,vx)*180/Math.PI;blob.style.left=x+'px';blob.style.top=y+'px';blob.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+(1+s)+','+(1-s*.55)+')';requestAnimationFrame(cursorLoop)}
 if(blob&&!reduceMotion&&matchMedia('(pointer:fine)').matches)cursorLoop();
 // Rotating digital globe made with canvas geometry.
 const wc=document.getElementById('worldCanvas'),wctx=wc.getContext('2d');let ws;
