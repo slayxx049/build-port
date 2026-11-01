@@ -46,3 +46,22 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 .skills .keyboard-display{border-color:#927b58;box-shadow:inset 0 3px 12px #000b,0 0 22px #e5b45b22}
 @media(max-width:600px){.keyboard-build{padding:4px 0;margin-bottom:20px}.build-scene{height:145px}.build-cap{width:43px;height:38px;font-size:8px}.cap-1{--sx:-132px}.cap-2{--sx:-88px}.cap-3{--sx:-44px}.cap-4{--sx:0px}.cap-5{--sx:44px}.cap-6{--sx:88px}.cap-7{--sx:132px}.build-board{height:85px}.build-orbit{width:245px;height:90px}}
 @media(prefers-reduced-motion:reduce){.keyboard-build,.build-cap,.build-board{transition:none!important}.keyboard-build.visible .build-cap{opacity:1;transform:translate3d(var(--sx),20px,0) rotateX(58deg) rotateZ(var(--rz)) scale(1)}}
+
+/* Blackletter name treatment */
+.hero-name{display:block;position:relative;width:max-content;max-width:100%;margin:16px 0 18px;padding:0 0 4px;color:#f1eee8;font:400 clamp(64px,10vw,126px)/.9 'UnifrakturMaguntia',serif;letter-spacing:0;text-shadow:0 4px 28px #ffffff16;transition:color .3s,text-shadow .3s}
+.hero-name:before{content:'+';position:absolute;left:7px;top:-.58em;font:300 .42em/1 var(--body);color:#f1eee8;opacity:.9}
+.hero-name:after{display:none}
+.hero-name:hover{color:#fff8e8;letter-spacing:0;text-shadow:0 0 28px #f2d7a455}
+.name-caption{display:none}
+/* Blend the dark projects section into the warm skill section through the keyboard build */
+.skills{padding-top:82px;background:linear-gradient(180deg,#090b10 0%,#11141a 8%,#27241f 17%,#766044 27%,#c7a979 36%,#f5e6c8 49%,#e9d8b8 100%);color:#211b13}
+.skills:before{background:radial-gradient(ellipse at 50% 24%,#f4d59b22,transparent 33%),linear-gradient(180deg,#090b10aa 0%,transparent 39%),radial-gradient(ellipse at 50% 52%,#ffc96b55,transparent 47%)}
+.keyboard-build{margin-top:0;margin-bottom:26px}
+.build-caption{color:#d8bd8b}
+.build-footnote{color:#9c7741}
+.skill-info{max-width:970px;margin:22px auto 0;padding:17px 20px;border:1px solid #c69d60;border-radius:10px;background:linear-gradient(135deg,#fff4dd,#e8d1a8);box-shadow:0 12px 28px #8e642a20;color:#3c2c19;animation:skillInfoIn .3s ease both}
+.skill-info[hidden]{display:none}
+.skill-info strong{display:block;font:600 17px var(--mono);letter-spacing:.06em;color:#81521d}
+.skill-info p{margin:7px 0 0;color:#66513a;font-size:12px;line-height:1.7}
+@keyframes skillInfoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.skills{padding-top:72px}.hero-name{font-size:76px}.build-caption{font-size:7px}.skill-info{margin-top:17px}}
