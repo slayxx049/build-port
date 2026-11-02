@@ -188,3 +188,20 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
     background-position: 50% 50%;
   }
 }
+
+
+/* Friend-created Minecraft font for the portfolio navigation only. */
+@font-face {
+  font-family: "MinecraftCustom";
+  src: url("assets/fonts/Minecraft.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+.nav .logo,
+.nav nav a,
+.nav .nav-contact {
+  font-family: "MinecraftCustom", monospace;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
