@@ -109,7 +109,7 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 /* Local Pricedown font uploaded to assets/pricedown. */
 @font-face {
   font-family: "Pricedown";
-  src: url("assets/pricedown/Pricedown%20Bl.otf") format("opentype");
+  src: url("assets/pricedown/Pricedown%2520Bl.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
