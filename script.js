@@ -2,7 +2,10 @@ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=matchMedia('(pointer:fine)').matches;
 // Reversible reveal: elements animate in and out as the visitor scrolls in either direction.
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.13});
-document.querySelectorAll('.reveal,.event,.keyboard-build').forEach(el=>observer.observe(el));
+document.querySelectorAll('.reveal,.keyboard-build').forEach(el=>observer.observe(el));
+// Timeline checkpoints activate one by one as each milestone enters the reading zone.
+const eventObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('visible',entry.isIntersecting)),{threshold:.28,rootMargin:'-8% 0px -38% 0px'});
+document.querySelectorAll('.timeline .event').forEach(el=>eventObserver.observe(el));
 // Single-piece jelly cursor: one deforming blob, never layered circles or bubbles.
 const blob=document.querySelector('.cursor-blob');
 if(blob&&finePointer&&!reduceMotion){
