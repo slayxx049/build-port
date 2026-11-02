@@ -130,7 +130,7 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 .projects .heading h2 {
   font-size: clamp(38px, 6.6vw, 82px);
   line-height: 1.08;
-  letter-spacing: .015em;
+  letter-spacing: .04em;
 }
 .projects .heading h2 em {
   font-style: normal;
@@ -140,7 +140,7 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   font-size: clamp(17px, 1.65vw, 22px);
   line-height: 1.2;
   min-height: 0;
-  letter-spacing: .02em;
+  letter-spacing: .04em;
 }
 @media(max-width:600px) {
   .projects .heading h2 { font-size: clamp(35px, 10vw, 54px); }
