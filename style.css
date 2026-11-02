@@ -104,3 +104,45 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
  .projects .card:nth-child(3) h3.project-display img{max-height:36px}
  .timeline:before,.timeline:after{bottom:-36px}
 }
+
+
+/* Local Pricedown font uploaded to assets/pricedown. */
+@font-face {
+  font-family: "Pricedown";
+  src: url("assets/pricedown/Pricedown%20Bl.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+/* Apply Pricedown to the portfolio's main display headings and project names. */
+.hero h1,
+.projects .heading h2,
+.projects .card h3.project-display {
+  font-family: "Pricedown", Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  line-height: 1.02;
+  letter-spacing: .015em;
+}
+.projects .heading h2 {
+  font-size: clamp(38px, 6.6vw, 82px);
+  line-height: 1.08;
+  letter-spacing: .015em;
+}
+.projects .heading h2 em {
+  font-style: normal;
+  color: inherit;
+}
+.projects .card h3.project-display {
+  font-size: clamp(17px, 1.65vw, 22px);
+  line-height: 1.2;
+  min-height: 0;
+  letter-spacing: .02em;
+}
+@media(max-width:600px) {
+  .projects .heading h2 { font-size: clamp(35px, 10vw, 54px); }
+  .projects .card h3.project-display { font-size: 20px; }
+}
