@@ -146,3 +146,45 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   .projects .heading h2 { font-size: clamp(35px, 10vw, 54px); }
   .projects .card h3.project-display { font-size: 20px; }
 }
+
+
+/* Spectral glow: subtle colour variation across each Pricedown project title. */
+.projects .card h3.project-display {
+  background: linear-gradient(
+    100deg,
+    #fff4c7 0%,
+    #ffd36e 17%,
+    #fff0a8 31%,
+    #8beaff 48%,
+    #c7a5ff 66%,
+    #ff9fcf 82%,
+    #fff0c2 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 3px #8bdfff40);
+  animation: projectSpectralGlow 8s ease-in-out infinite alternate;
+}
+@keyframes projectSpectralGlow {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 2px #ffd36e38);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px #8beaff66);
+  }
+  100% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 5px #c7a5ff66);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects .card h3.project-display {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}
