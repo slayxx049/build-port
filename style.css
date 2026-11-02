@@ -231,9 +231,9 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   font-weight: 400;
 }
 
-/* Bungee typography for the build-history heading only. */
+/* Bungee Shade gives the build-history heading its dimensional 3D lettering. */
 .history .history-head h2 {
-  font-family: "Bungee", sans-serif;
+  font-family: "Bungee Shade", "Bungee", sans-serif;
   font-weight: 400;
   letter-spacing: .015em;
   text-transform: uppercase;
