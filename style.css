@@ -230,3 +230,11 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   font-family: "SamsungSharpSans", Arial, sans-serif;
   font-weight: 400;
 }
+
+/* Bungee typography for the build-history heading only. */
+.history .history-head h2 {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  letter-spacing: .015em;
+  text-transform: uppercase;
+}
