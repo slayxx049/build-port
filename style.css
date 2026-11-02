@@ -214,3 +214,19 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 .projects .heading > .eyebrow {
   font-family: "MinecraftCustom", monospace;
 }
+
+
+/* Samsung Sharp Sans for project timeline detail text. */
+@font-face {
+  font-family: "SamsungSharpSans";
+  src: url("assets/pricedown/fonts/SamsungSharpSans-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+.history .event article h3,
+.history .event article p,
+.history .event article small {
+  font-family: "SamsungSharpSans", Arial, sans-serif;
+  font-weight: 400;
+}
