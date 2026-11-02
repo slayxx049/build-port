@@ -205,3 +205,12 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   font-weight: 400;
   letter-spacing: .035em;
 }
+
+/* Minecraft typography for the requested hero and section supporting text. */
+.hero .lead,
+.hero .meta,
+.hero .scroll,
+.hero .actions .btn,
+.projects .heading > .eyebrow {
+  font-family: "MinecraftCustom", monospace;
+}
