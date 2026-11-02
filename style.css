@@ -193,7 +193,7 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 /* Friend-created Minecraft font for the portfolio navigation only. */
 @font-face {
   font-family: "MinecraftCustom";
-  src: url("assets/fonts/Minecraft.ttf") format("truetype");
+  src: url("assets/pricedown/fonts/Minecraft-font-download.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
