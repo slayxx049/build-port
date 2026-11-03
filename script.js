@@ -75,48 +75,22 @@ document.querySelectorAll('.projects .card').forEach(card=>{
 });
 
 
-/* Rotating star-dust field at the bottom of the contact section. */
+/* Dense interactive spiral starfield in the contact background, based on the supplied reference video. */
 const contactCanvas=document.getElementById('contactStars');
 if(contactCanvas){
- const cctx=contactCanvas.getContext('2d');
- let contactSize={w:0,h:0,d:1},rotation=0;
- const contactParticles=Array.from({length:1050},(_,i)=>{
-  const arm=i%5, radius=Math.pow(Math.random(),.62);
-  return {arm,r:radius,angle:arm*Math.PI*2/5+radius*2.6+(Math.random()-.5)*.42,
-   depth:.35+Math.random()*.65,size:.35+Math.random()*1.15,
-   phase:Math.random()*Math.PI*2,twinkle:.4+Math.random()*.8};
- });
- function sizeContactStars(){
-  const r=contactCanvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
-  contactSize={w:r.width,h:r.height,d};
-  contactCanvas.width=Math.max(1,Math.round(r.width*d));
-  contactCanvas.height=Math.max(1,Math.round(r.height*d));
-  cctx.setTransform(d,0,0,d,0,0);
- }
+ const cctx=contactCanvas.getContext('2d');let contactSize={w:0,h:0,d:1},rotation=0;
+ const pointer={x:.56,y:.52,tx:.56,ty:.52,active:false};
+ const galaxyStars=Array.from({length:5200},(_,i)=>{const arm=i%4,radius=Math.pow(Math.random(),.64),spread=(Math.random()-.5)*(.10+.17*radius);return {r:radius,a:arm*Math.PI*.5+radius*5.4+spread,depth:.25+Math.random()*.75,size:.22+Math.random()*.82,phase:Math.random()*Math.PI*2,drift:(Math.random()-.5)*.0008,halo:Math.random()>.988}});
+ function sizeContactStars(){const r=contactCanvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);contactSize={w:r.width,h:r.height,d};contactCanvas.width=Math.max(1,Math.round(r.width*d));contactCanvas.height=Math.max(1,Math.round(r.height*d));cctx.setTransform(d,0,0,d,0,0)}
  sizeContactStars();
- function drawContactStars(){
-  const {w,h}=contactSize;
-  cctx.clearRect(0,0,w,h);
-  const cx=w*.57,cy=h*.53,scale=Math.min(w*.47,h*.62);
-  rotation+=reduceMotion?0:.0018;
-  for(const p of contactParticles){
-   const a=p.angle+rotation*(.55+p.depth*.75);
-   const rr=p.r*scale;
-   const x=cx+Math.cos(a)*rr*1.45;
-   const y=cy+Math.sin(a)*rr*.48+(p.r-.5)*h*.12;
-   const pulse=.45+.55*Math.sin(rotation*3+p.phase);
-   const alpha=(.13+p.depth*.55)*pulse*p.twinkle;
-   const warm=p.arm%2===0;
-   cctx.fillStyle=warm?`rgba(255,224,163,${alpha})`:`rgba(160,194,255,${alpha*.9})`;
-   cctx.beginPath();cctx.arc(x,y,p.size*p.depth,0,Math.PI*2);cctx.fill();
-   if(p.size>1.05&&pulse>.86){
-    cctx.strokeStyle=warm?`rgba(255,233,190,${alpha*.42})`:`rgba(178,209,255,${alpha*.38})`;
-    cctx.lineWidth=.55;cctx.beginPath();cctx.moveTo(x-3*p.depth,y);cctx.lineTo(x+3*p.depth,y);
-    cctx.moveTo(x,y-3*p.depth);cctx.lineTo(x,y+3*p.depth);cctx.stroke();
-   }
-  }
-  if(!reduceMotion)requestAnimationFrame(drawContactStars);
- }
- drawContactStars();
- addEventListener('resize',sizeContactStars);
+ contactCanvas.addEventListener('pointermove',e=>{const r=contactCanvas.getBoundingClientRect();pointer.tx=(e.clientX-r.left)/r.width;pointer.ty=(e.clientY-r.top)/r.height;pointer.active=true});
+ contactCanvas.addEventListener('pointerleave',()=>{pointer.active=false;pointer.tx=.56;pointer.ty=.52});
+ function drawContactStars(){const {w,h}=contactSize;cctx.clearRect(0,0,w,h);pointer.x+=(pointer.tx-pointer.x)*.075;pointer.y+=(pointer.ty-pointer.y)*.075;rotation+=reduceMotion?0:.00115;const cx=w*.57,cy=h*.52,scale=Math.min(w*.48,h*.72);
+  const haze=cctx.createRadialGradient(cx,cy,scale*.04,cx,cy,scale*1.1);haze.addColorStop(0,'rgba(176,190,214,.075)');haze.addColorStop(.55,'rgba(120,143,180,.035)');haze.addColorStop(1,'rgba(8,10,16,0)');cctx.fillStyle=haze;cctx.fillRect(0,0,w,h);
+  for(const s of galaxyStars){const a=s.a+rotation*(.45+s.depth*.8)+s.drift*rotation*500,rr=s.r*scale;let x=cx+Math.cos(a)*rr*1.55,y=cy+Math.sin(a)*rr*.55+(s.r-.5)*h*.09;
+   if(pointer.active){const px=pointer.x*w,py=pointer.y*h,dx=x-px,dy=y-py,dist=Math.hypot(dx,dy)||1,reach=Math.max(0,1-dist/(scale*.42)),bend=reach*reach*(10+18*s.depth);x+=(-dy/dist)*bend;y+=(dx/dist)*bend}
+   const twinkle=.48+.52*Math.sin(rotation*4+s.phase),alpha=(.18+s.depth*.58)*twinkle;cctx.fillStyle=s.depth>.82?'rgba(245,247,255,'+alpha+')':'rgba(190,204,229,'+(alpha*.78)+')';cctx.beginPath();cctx.arc(x,y,s.size*(.55+s.depth*.65),0,Math.PI*2);cctx.fill();
+   if(s.halo){cctx.strokeStyle='rgba(224,233,255,'+(alpha*.55)+')';cctx.lineWidth=.55;cctx.beginPath();cctx.moveTo(x-3.5*s.depth,y);cctx.lineTo(x+3.5*s.depth,y);cctx.moveTo(x,y-3.5*s.depth);cctx.lineTo(x,y+3.5*s.depth);cctx.stroke()}
+  }if(!reduceMotion)requestAnimationFrame(drawContactStars)}
+ drawContactStars();addEventListener('resize',sizeContactStars);
 }
