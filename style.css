@@ -348,3 +348,47 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 
 /* DM Mono for the build-log closing line and selected keyboard-key details. */
 .history .timeline-note,.skills .skill-info,.skills .skill-info strong,.skills .skill-info p{font-family:'DM Mono',monospace!important;font-weight:400;letter-spacing:.015em}.skills .skill-info p{font-size:12px;line-height:1.8}.contact .linkedin-mark{display:block;width:21px;height:21px;flex:0 0 21px}
+
+
+/* Full-screen cinematic portfolio entrance and red retro loading interstitial. */
+body.boot-active{overflow:hidden}
+.boot-screen{position:fixed;inset:0;z-index:9999;background:#050509;color:#f7f5f2;overflow:hidden;opacity:1;visibility:visible;transition:opacity .8s ease,visibility .8s ease}
+.boot-screen.boot-done{opacity:0;visibility:hidden;pointer-events:none}
+.boot-cinema,.boot-loading{position:absolute;inset:0;display:grid;place-items:center}
+.boot-cinema{background:radial-gradient(ellipse at 50% 58%,#45101c 0%,#16070d 31%,#050509 72%);animation:bootCinemaExit 1s ease 1.45s both}
+.boot-stars{position:absolute;inset:-20%;background-image:radial-gradient(1px 1px at 12% 20%,#fff 98%,transparent),radial-gradient(1px 1px at 68% 13%,#e9aab4 98%,transparent),radial-gradient(2px 2px at 84% 67%,#fff 98%,transparent),radial-gradient(1px 1px at 31% 77%,#e9aab4 98%,transparent),radial-gradient(1px 1px at 52% 43%,#fff 98%,transparent);background-size:190px 170px,230px 210px,270px 240px,210px 190px,160px 150px;opacity:.45;animation:bootStarDrift 18s linear infinite}
+.boot-scanline{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,#fff 4px,transparent 5px);opacity:.035}
+.boot-cinema-frame{position:relative;width:min(82vw,880px);text-align:center;padding:clamp(36px,7vw,82px) 18px;border-top:1px solid #ff526e66;border-bottom:1px solid #ff526e66;animation:bootTitleIn 1.1s cubic-bezier(.16,1,.3,1) both}
+.boot-cinema-frame:before,.boot-cinema-frame:after{content:"";position:absolute;width:44px;height:44px;border-color:#ef2446;border-style:solid;opacity:.8}
+.boot-cinema-frame:before{top:0;left:0;border-width:2px 0 0 2px}.boot-cinema-frame:after{right:0;bottom:0;border-width:0 2px 2px 0}
+.boot-kicker,.boot-sequence,.boot-loading-kicker,.boot-loading-meta,.boot-loading-foot{font:10px 'DM Mono',monospace;letter-spacing:.22em;color:#d78b9a}
+.boot-kicker{margin:0 0 27px}
+.boot-cinema-title{display:flex;align-items:center;justify-content:center;gap:.16em;font:900 clamp(54px,12vw,132px)/.95 'Orbitron',sans-serif;letter-spacing:-.08em;text-shadow:0 0 12px #ff204a99,0 0 48px #ff204a55}
+.boot-cinema-title i{font-style:normal;color:#f12549}
+.boot-subtitle{margin:26px 0 24px;font:500 clamp(9px,1.4vw,12px) 'DM Mono',monospace;letter-spacing:.34em;color:#f2d7dc}
+.boot-cinema-rule{width:min(230px,45vw);height:2px;background:#6d1829;margin:auto;overflow:hidden}
+.boot-cinema-rule span{display:block;width:35%;height:100%;background:#ff3154;box-shadow:0 0 14px #ff3154;animation:bootRule 1.3s ease-in-out infinite}
+.boot-sequence{margin:20px 0 0;font-size:8px;letter-spacing:.15em;color:#96616d}.boot-sequence b{color:#f12549}
+.boot-flare{position:absolute;width:42vw;height:42vw;max-width:550px;max-height:550px;border-radius:50%;background:radial-gradient(circle,#e71b3b24,transparent 68%);filter:blur(12px);pointer-events:none;animation:bootPulse 3s ease-in-out infinite}
+.boot-loading{background:#e3163d;opacity:0;visibility:hidden;animation:bootLoadEnter .75s ease 1.45s forwards}
+.boot-loading:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,#ff8ca01c 50%,transparent 70%);transform:translateX(-100%);animation:bootRedSweep 1.8s ease 1.7s both}
+.boot-loading-inner{position:relative;width:min(88vw,1050px);text-align:center}
+.boot-loading-kicker{color:#fff9;margin:0 0 20px;letter-spacing:.3em}
+.boot-loading-name{margin:0;color:#fff;font:900 clamp(62px,14vw,150px)/.95 'Orbitron',sans-serif;letter-spacing:-.08em;text-shadow:3px 3px 0 #a50e2c,0 0 22px #fff5}
+.boot-loading-label{margin:clamp(25px,5vw,54px) 0 16px;color:#fff;font:800 clamp(18px,3vw,28px) 'Orbitron',sans-serif;letter-spacing:.23em;text-align:left}
+.loading-dots{display:inline-block;width:1.7em;overflow:hidden;vertical-align:bottom;animation:loadingDots 1.15s steps(4,end) infinite}
+.boot-progress-track{height:clamp(22px,4vw,34px);padding:0;border:2px solid #fff;background:#a80f2e55;box-shadow:0 0 0 1px #a50e2c33;overflow:hidden}
+.boot-progress-track span{display:block;width:0;height:100%;background:#fff;box-shadow:0 0 18px #fff;transition:width .22s ease}
+.boot-loading-meta{display:flex;justify-content:space-between;margin-top:12px;color:#fff;font-size:9px;letter-spacing:.15em}
+.boot-loading-foot{position:absolute;bottom:26px;left:20px;right:20px;text-align:center;color:#fff9;font-size:8px;letter-spacing:.2em}
+.boot-loading-foot span{padding:0 8px}
+@keyframes bootTitleIn{from{opacity:0;transform:translateY(26px) scale(.97);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes bootCinemaExit{to{opacity:0;visibility:hidden;transform:scale(1.035)}}
+@keyframes bootLoadEnter{to{opacity:1;visibility:visible}}
+@keyframes bootStarDrift{to{transform:translate3d(-3%,2%,0)}}
+@keyframes bootRule{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+@keyframes bootPulse{50%{transform:scale(1.25);opacity:.55}}
+@keyframes bootRedSweep{to{transform:translateX(100%)}}
+@keyframes loadingDots{0%{width:0}100%{width:1.7em}}
+@media(max-width:600px){.boot-cinema-frame{width:88vw;padding:54px 10px}.boot-kicker{font-size:8px}.boot-sequence{font-size:6px}.boot-loading-foot{font-size:7px;line-height:1.8}.boot-loading-meta{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.boot-screen *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
