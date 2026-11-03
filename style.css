@@ -444,3 +444,30 @@ body.boot-active{overflow:hidden}
 @media(max-width:600px){
  .boot-loading-name{font-size:clamp(43px,13vw,78px)!important;letter-spacing:0!important}
 }
+
+
+/* Custom-drawn segmented techno wordmark: built as vector letterforms, not a substitute font. */
+.boot-loading-name{
+ display:flex!important;
+ justify-content:center;
+ align-items:center;
+ width:100%;
+ margin:clamp(12px,2.5vw,24px) auto!important;
+ color:#d9ffe0!important;
+ font-size:initial!important;
+ line-height:1!important;
+ letter-spacing:0!important;
+ text-shadow:0 0 7px #aaffb7,0 0 18px #4dff70,0 0 42px #18ff4b99!important;
+ transform:none!important;
+}
+.boot-loading-name:after{display:none!important}
+.olga-techno-wordmark{
+ display:block;
+ width:min(100%,590px);
+ height:auto;
+ overflow:visible;
+ color:#d9ffe0;
+ filter:drop-shadow(0 0 5px #54ff70) drop-shadow(0 0 16px #18ff4b88);
+}
+.boot-loading-name .olga-techno-wordmark g{vector-effect:non-scaling-stroke}
+@media(max-width:600px){.olga-techno-wordmark{width:min(100%,430px)}}
