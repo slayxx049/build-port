@@ -344,3 +344,7 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
 @media(prefers-reduced-motion:reduce) {
   #contactStars { opacity: .42; }
 }
+
+
+/* DM Mono for the build-log closing line and selected keyboard-key details. */
+.history .timeline-note,.skills .skill-info,.skills .skill-info strong,.skills .skill-info p{font-family:'DM Mono',monospace!important;font-weight:400;letter-spacing:.015em}.skills .skill-info p{font-size:12px;line-height:1.8}.contact .linkedin-mark{display:block;width:21px;height:21px;flex:0 0 21px}
