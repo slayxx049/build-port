@@ -131,31 +131,52 @@ if(contactCanvas){
 })();
 
 
-/* Boot progress follows the page load event, then fades into the portfolio. */
+/* Resource-aware boot screen: progress follows real page assets and browser load completion. */
 (function(){
  const screen=document.getElementById('bootScreen');
  if(!screen)return;
  const bar=document.getElementById('bootProgress'),percent=document.getElementById('bootPercent'),status=document.getElementById('bootStatus'),terminal=document.getElementById('bootTerminal');
  const messages=['ESTABLISHING CONNECTION','LOADING ASSETS','INDEXING PROJECTS','PREPARING INTERFACE','SYSTEM READY'];
- const started=performance.now();let loaded=document.readyState==='complete',value=0,finished=false;
- addEventListener('load',()=>{loaded=true},{once:true});
- function tick(now){
+ let windowLoaded=document.readyState==='complete',fontsLoaded=false,finished=false,raf=0;
+ const expected=new Set(),completed=new Set();
+ const normalize=u=>{try{return new URL(u,document.baseURI).href}catch(e){return u}};
+ function addExpected(u){if(u)expected.add(normalize(u))}
+ function scanResources(){
+  document.querySelectorAll('img').forEach(el=>{addExpected(el.currentSrc||el.src);if(el.complete&&(el.naturalWidth>0||el.naturalWidth===0))completed.add(normalize(el.currentSrc||el.src))});
+  document.querySelectorAll('script[src],link[rel="stylesheet"][href],link[rel="preload"][href],video[poster]').forEach(el=>{
+   const u=el.src||el.href||el.poster;addExpected(u);
+   if(u&&performance.getEntriesByName(normalize(u)).length)completed.add(normalize(u));
+   if(el.tagName==='LINK'&&el.rel==='stylesheet'&&el.sheet)completed.add(normalize(u));
+  });
+  performance.getEntriesByType('resource').forEach(entry=>{addExpected(entry.name);completed.add(normalize(entry.name))});
+ }
+ function countImages(){document.querySelectorAll('img').forEach(el=>{const u=normalize(el.currentSrc||el.src);if(el.complete)completed.add(u)})}
+ scanResources();
+ document.addEventListener('load',e=>{const el=e.target;if(el&&(el.src||el.href||el.poster)){const u=normalize(el.currentSrc||el.src||el.href||el.poster);addExpected(u);completed.add(u)}},true);
+ document.addEventListener('error',e=>{const el=e.target;if(el&&(el.src||el.href||el.poster)){const u=normalize(el.currentSrc||el.src||el.href||el.poster);addExpected(u);completed.add(u)}},true);
+ addEventListener('load',()=>{windowLoaded=true;scanResources();countImages()},{once:true});
+ const fontPromise=document.fonts&&document.fonts.ready?document.fonts.ready.then(()=>{fontsLoaded=true}):Promise.resolve().then(()=>{fontsLoaded=true});
+ if(document.readyState==='complete')windowLoaded=true;
+ function render(){
   if(finished)return;
-  const elapsed=now-started;
-  const target=loaded?100:Math.min(92,8+elapsed/55);
-  value+=(target-value)*(loaded?.13:.035);
-  if(loaded&&elapsed>2100)value=Math.min(100,value+1.7);
-  const shown=Math.min(100,Math.floor(value));
-  bar.style.width=shown+'%';percent.textContent=String(shown).padStart(2,'0')+'%';
-  status.textContent=messages[Math.min(messages.length-1,Math.floor(shown/25))];
-  if(shown>=100&&loaded&&elapsed>2400){
+  scanResources();countImages();
+  const total=expected.size,done=completed.size;
+  let progress=total?Math.min(96,Math.floor(done/total*96)):0;
+  if(document.readyState!=='loading')progress=Math.max(progress,Math.min(35,document.readyState==='interactive'?25:35));
+  if(windowLoaded&&fontsLoaded)progress=100;
+  bar.style.width=progress+'%';
+  percent.textContent=String(progress).padStart(2,'0')+'%';
+  status.textContent=messages[Math.min(messages.length-1,Math.floor(progress/25))];
+  if(windowLoaded&&fontsLoaded){
    finished=true;
-   terminal.innerHTML+='<p><b>[ OK ]</b> SYSTEM READY. WELCOME.</p>';
-   setTimeout(()=>screen.classList.add('is-exiting'),250);
-   setTimeout(()=>screen.remove(),1100);
+   terminal.innerHTML+='<p><b>[ OK ]</b> ALL PAGE RESOURCES READY. WELCOME.</p>';
+   bar.style.width='100%';percent.textContent='100%';status.textContent='SYSTEM READY';
+   setTimeout(()=>screen.classList.add('is-exiting'),180);
+   setTimeout(()=>screen.remove(),1000);
    return;
   }
-  requestAnimationFrame(tick);
+  raf=requestAnimationFrame(render);
  }
- requestAnimationFrame(tick);
+ fontPromise.then(()=>{if(!finished&&!raf)raf=requestAnimationFrame(render)});
+ render();
 })();
