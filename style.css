@@ -417,3 +417,30 @@ body.boot-active{overflow:hidden}
 @keyframes terminalBlink{50%{opacity:0}}@keyframes loadingDots{0%{width:0}100%{width:1.2em}}
 @media(max-width:600px){.boot-frame{min-height:75vh;padding:20px 16px}.boot-top,.boot-bottom{font-size:9px}.boot-terminal{margin-top:24px}.boot-center{width:100%}.boot-loading{font-size:clamp(62px,16vw,100px)}}
 @media(prefers-reduced-motion:reduce){.boot-screen,.boot-progress span{transition:none}.loading-dots,.terminal-caret{animation:none}}
+
+
+/* Futuristic cut-tech display lettering for the OLGA loading mark. */
+.boot-loading-name{
+  position:relative;
+  display:inline-block;
+  font-family:"Michroma","Orbitron",sans-serif!important;
+  font-size:clamp(54px,10.5vw,116px)!important;
+  font-weight:400!important;
+  line-height:1.12!important;
+  letter-spacing:.035em!important;
+  color:#d9ffe0!important;
+  text-shadow:0 0 5px #aaffb7,0 0 14px #4dff70,0 0 34px #18ff4b,0 0 70px #00d83d88!important;
+  transform:scaleX(1.04);
+}
+.boot-loading-name:after{
+  content:"";
+  position:absolute;
+  left:-3%;right:-3%;top:53%;
+  height:3px;
+  background:#020704;
+  box-shadow:0 1px 0 #6cff86,0 0 9px #20ff4d66;
+  pointer-events:none;
+}
+@media(max-width:600px){
+ .boot-loading-name{font-size:clamp(43px,13vw,78px)!important;letter-spacing:0!important}
+}
