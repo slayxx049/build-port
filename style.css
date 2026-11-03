@@ -238,3 +238,19 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   letter-spacing: .015em;
   text-transform: uppercase;
 }
+
+
+/* Minecraft display labels requested for the toolkit, assembly caption, build log and contact. */
+.skills .build-caption,
+.skills .heading > .eyebrow,
+.history .history-head .eyebrow,
+.contact > .eyebrow {
+  font-family: "MinecraftCustom", monospace;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+/* Keep the contact statement in the technical DM Mono typeface. */
+.contact > p:not(.eyebrow) {
+  font-family: var(--mono);
+}
