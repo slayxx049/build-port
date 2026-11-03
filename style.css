@@ -392,3 +392,28 @@ body.boot-active{overflow:hidden}
 @keyframes loadingDots{0%{width:0}100%{width:1.7em}}
 @media(max-width:600px){.boot-cinema-frame{width:88vw;padding:54px 10px}.boot-kicker{font-size:8px}.boot-sequence{font-size:6px}.boot-loading-foot{font-size:7px;line-height:1.8}.boot-loading-meta{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.boot-screen *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Cinematic green terminal boot sequence */
+.boot-screen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;background:#020704;color:#8bff9b;font-family:"Share Tech Mono",monospace;opacity:1;visibility:visible;transition:opacity .75s ease,visibility .75s ease}
+.boot-screen.is-exiting{opacity:0;visibility:hidden;pointer-events:none}
+.boot-screen:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,#06301444 0%,transparent 62%),linear-gradient(90deg,transparent 49.9%,#36ff6810 50%,transparent 50.1%);pointer-events:none}
+.boot-frame{position:relative;width:min(1100px,90vw);min-height:min(650px,82vh);padding:clamp(18px,4vw,42px);border:1px solid #35f66b55;box-shadow:0 0 55px #00ff4520,inset 0 0 45px #00ff4510;display:flex;flex-direction:column;justify-content:space-between;background:#020805b8}
+.boot-frame:before,.boot-frame:after{content:"";position:absolute;width:34px;height:34px;border-color:#7cff91;border-style:solid;opacity:.8}
+.boot-frame:before{top:-1px;left:-1px;border-width:2px 0 0 2px}.boot-frame:after{right:-1px;bottom:-1px;border-width:0 2px 2px 0}
+.boot-top,.boot-bottom,.boot-percent{display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:12px;letter-spacing:.12em;color:#71d982}
+.boot-live{color:#42ff70;text-shadow:0 0 10px #36ff68}
+.boot-terminal{margin-top:35px;line-height:1.7;font-size:clamp(12px,1.5vw,16px);color:#5eae6d}
+.boot-terminal p{margin:5px 0}.boot-terminal b{color:#65ff82;font-weight:400;text-shadow:0 0 9px #35ff65}
+.terminal-caret{display:inline-block;margin-left:5px;animation:terminalBlink .8s steps(2,end) infinite;color:#9affaa}
+.boot-center{width:min(680px,90%);margin:auto;text-align:center;padding:45px 0}
+.boot-loading{font-family:"VT323","Share Tech Mono",monospace;font-size:clamp(76px,12vw,142px);line-height:.9;letter-spacing:.06em;color:#d5ffda;text-shadow:0 0 8px #54ff70,0 0 28px #21ff4d,0 0 65px #00ff4d66}
+.loading-dots{display:inline-block;width:1.2em;text-align:left;animation:loadingDots 1.2s steps(4,end) infinite;overflow:hidden;vertical-align:bottom}
+.boot-progress{height:13px;margin:30px auto 12px;width:100%;padding:2px;border:1px solid #39ff6c99;background:#031509;box-shadow:0 0 18px #00ff4533}
+.boot-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#168c39,#9dffad);box-shadow:0 0 16px #45ff6d;transition:width .18s ease}
+.boot-percent{font-size:11px;color:#60bd73}.boot-percent strong{font-weight:400;color:#a8ffb4}
+.boot-bottom{padding-top:18px;border-top:1px solid #36f66b30;font-size:10px;color:#4f9b5d}
+.boot-scanlines{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,#8aff9b08 4px);opacity:.4;mix-blend-mode:screen}
+@keyframes terminalBlink{50%{opacity:0}}@keyframes loadingDots{0%{width:0}100%{width:1.2em}}
+@media(max-width:600px){.boot-frame{min-height:75vh;padding:20px 16px}.boot-top,.boot-bottom{font-size:9px}.boot-terminal{margin-top:24px}.boot-center{width:100%}.boot-loading{font-size:clamp(62px,16vw,100px)}}
+@media(prefers-reduced-motion:reduce){.boot-screen,.boot-progress span{transition:none}.loading-dots,.terminal-caret{animation:none}}
