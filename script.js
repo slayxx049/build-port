@@ -129,3 +129,33 @@ if(contactCanvas){
  if(reduced){loaded=true}
  requestAnimationFrame(tick);
 })();
+
+
+/* Boot progress follows the page load event, then fades into the portfolio. */
+(function(){
+ const screen=document.getElementById('bootScreen');
+ if(!screen)return;
+ const bar=document.getElementById('bootProgress'),percent=document.getElementById('bootPercent'),status=document.getElementById('bootStatus'),terminal=document.getElementById('bootTerminal');
+ const messages=['ESTABLISHING CONNECTION','LOADING ASSETS','INDEXING PROJECTS','PREPARING INTERFACE','SYSTEM READY'];
+ const started=performance.now();let loaded=document.readyState==='complete',value=0,finished=false;
+ addEventListener('load',()=>{loaded=true},{once:true});
+ function tick(now){
+  if(finished)return;
+  const elapsed=now-started;
+  const target=loaded?100:Math.min(92,8+elapsed/55);
+  value+=(target-value)*(loaded?.13:.035);
+  if(loaded&&elapsed>2100)value=Math.min(100,value+1.7);
+  const shown=Math.min(100,Math.floor(value));
+  bar.style.width=shown+'%';percent.textContent=String(shown).padStart(2,'0')+'%';
+  status.textContent=messages[Math.min(messages.length-1,Math.floor(shown/25))];
+  if(shown>=100&&loaded&&elapsed>2400){
+   finished=true;
+   terminal.innerHTML+='<p><b>[ OK ]</b> SYSTEM READY. WELCOME.</p>';
+   setTimeout(()=>screen.classList.add('is-exiting'),250);
+   setTimeout(()=>screen.remove(),1100);
+   return;
+  }
+  requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+})();
