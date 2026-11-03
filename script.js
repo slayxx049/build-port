@@ -83,8 +83,9 @@ if(contactCanvas){
  const galaxyStars=Array.from({length:5200},(_,i)=>{const arm=i%4,radius=Math.pow(Math.random(),.64),spread=(Math.random()-.5)*(.10+.17*radius);return {r:radius,a:arm*Math.PI*.5+radius*5.4+spread,depth:.25+Math.random()*.75,size:.22+Math.random()*.82,phase:Math.random()*Math.PI*2,drift:(Math.random()-.5)*.0008,halo:Math.random()>.988}});
  function sizeContactStars(){const r=contactCanvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);contactSize={w:r.width,h:r.height,d};contactCanvas.width=Math.max(1,Math.round(r.width*d));contactCanvas.height=Math.max(1,Math.round(r.height*d));cctx.setTransform(d,0,0,d,0,0)}
  sizeContactStars();
- contactCanvas.addEventListener('pointermove',e=>{const r=contactCanvas.getBoundingClientRect();pointer.tx=(e.clientX-r.left)/r.width;pointer.ty=(e.clientY-r.top)/r.height;pointer.active=true});
- contactCanvas.addEventListener('pointerleave',()=>{pointer.active=false;pointer.tx=.56;pointer.ty=.52});
+ const contactSection=document.getElementById('contact');
+ contactSection.addEventListener('pointermove',e=>{const r=contactCanvas.getBoundingClientRect();pointer.tx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));pointer.ty=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));pointer.active=true});
+ contactSection.addEventListener('pointerleave',()=>{pointer.active=false;pointer.tx=.56;pointer.ty=.52});
  function drawContactStars(){const {w,h}=contactSize;cctx.clearRect(0,0,w,h);pointer.x+=(pointer.tx-pointer.x)*.075;pointer.y+=(pointer.ty-pointer.y)*.075;rotation+=reduceMotion?0:.00115;const cx=w*.57,cy=h*.52,scale=Math.min(w*.48,h*.72);
   const haze=cctx.createRadialGradient(cx,cy,scale*.04,cx,cy,scale*1.1);haze.addColorStop(0,'rgba(176,190,214,.075)');haze.addColorStop(.55,'rgba(120,143,180,.035)');haze.addColorStop(1,'rgba(8,10,16,0)');cctx.fillStyle=haze;cctx.fillRect(0,0,w,h);
   for(const s of galaxyStars){const a=s.a+rotation*(.45+s.depth*.8)+s.drift*rotation*500,rr=s.r*scale;let x=cx+Math.cos(a)*rr*1.55,y=cy+Math.sin(a)*rr*.55+(s.r-.5)*h*.09;
