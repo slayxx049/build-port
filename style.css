@@ -510,3 +510,14 @@ body.boot-active{overflow:hidden}
   font-weight: 400 !important;
   letter-spacing: .025em !important;
 }
+
+
+/* Keep the OLGA loading wordmark crisp: remove its surrounding glow. */
+.boot-loading-name,
+.boot-loading-name .boot-wordmark {
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
