@@ -95,3 +95,37 @@ if(contactCanvas){
   }if(!reduceMotion)requestAnimationFrame(drawContactStars)}
  drawContactStars();addEventListener('resize',sizeContactStars);
 }
+
+
+/* Cinematic first-visit sequence: title card -> red loading screen -> portfolio. */
+(()=>{
+ const screen=document.getElementById('bootScreen');
+ if(!screen)return;
+ document.body.classList.add('boot-active');
+ const progress=document.getElementById('bootProgress');
+ const progressTrack=screen.querySelector('[role="progressbar"]');
+ const percent=document.getElementById('bootPercent');
+ const status=document.getElementById('bootStatus');
+ const started=performance.now(),minimum=3100;
+ let loaded=document.readyState==='complete',value=0,finished=false;
+ addEventListener('load',()=>{loaded=true},{once:true});
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function tick(now){
+  const elapsed=now-started;
+  const visualTarget=loaded?100:Math.min(88,8+elapsed/42);
+  value+=(visualTarget-value)*(loaded?.19:.055);
+  if(loaded&&elapsed>minimum)value=100;
+  const shown=Math.min(100,Math.floor(value));
+  progress.style.width=shown+'%';percent.textContent=String(shown).padStart(2,'0')+'%';
+  progressTrack.setAttribute('aria-valuenow',String(shown));
+  status.textContent=shown<28?'INITIALIZING PORTFOLIO':shown<58?'LOADING RESOURCES':shown<90?'PREPARING EXPERIENCE':'READY TO EXPLORE';
+  if(loaded&&elapsed>minimum&&shown>=99&&!finished){
+   finished=true;progress.style.width='100%';percent.textContent='100%';progressTrack.setAttribute('aria-valuenow','100');
+   setTimeout(()=>{screen.classList.add('boot-done');document.body.classList.remove('boot-active');setTimeout(()=>screen.remove(),900)},reduced?80:360);
+   return;
+  }
+  requestAnimationFrame(tick);
+ }
+ if(reduced){loaded=true}
+ requestAnimationFrame(tick);
+})();
