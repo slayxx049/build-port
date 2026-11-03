@@ -305,3 +305,42 @@ body.custom-cursor,body.custom-cursor *{cursor:none!important}
   .contact .contact-links { gap: 9px; }
   .contact .contact-link { flex: 1 1 calc(50% - 9px); min-width: 0; }
 }
+
+
+/* Contact footer star vortex, inspired by the supplied screen recording. */
+.contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.contact > :not(#contactStars) {
+  position: relative;
+  z-index: 2;
+}
+#contactStars {
+  position: absolute;
+  z-index: 0;
+  right: -2%;
+  bottom: 34px;
+  width: min(72%, 900px);
+  height: min(72%, 420px);
+  pointer-events: none;
+  opacity: .9;
+  mix-blend-mode: screen;
+}
+.contact footer {
+  position: relative;
+  z-index: 2;
+}
+@media(max-width:600px) {
+  #contactStars {
+    width: 110%;
+    height: 48%;
+    right: -25%;
+    bottom: 42px;
+    opacity: .65;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  #contactStars { opacity: .42; }
+}
