@@ -471,3 +471,26 @@ body.boot-active{overflow:hidden}
 }
 .boot-loading-name .olga-techno-wordmark g{vector-effect:non-scaling-stroke}
 @media(max-width:600px){.olga-techno-wordmark{width:min(100%,430px)}}
+
+
+/* OLGA loading wordmark — bold modular display lettering. */
+.boot-loading-name{
+  display:block!important;
+  width:100%;
+  margin:clamp(14px,3vw,28px) auto!important;
+  color:#eaffed!important;
+  font-family:"Bungee",system-ui,sans-serif!important;
+  font-size:clamp(76px,15vw,166px)!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:.025em!important;
+  text-align:center;
+  text-shadow:0 3px 0 #063d16,0 0 8px #aaffb7,0 0 22px #4dff70,0 0 52px #18ff4b99!important;
+  transform:none!important;
+}
+.boot-loading-name:after{display:none!important}
+.boot-wordmark{display:inline-block;transform:scaleX(1.04);-webkit-font-smoothing:antialiased}
+.olga-techno-wordmark{display:none!important}
+@media(max-width:600px){
+  .boot-loading-name{font-size:clamp(58px,17vw,112px)!important;letter-spacing:0!important}
+}
