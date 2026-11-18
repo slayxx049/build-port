@@ -54,10 +54,11 @@
   const message = document.getElementById('message');
   const PREVIEW_PASSCODE = '2468'; // Demo only. Replace with server-side authentication before public use.
   let locked = false;
+  let unlocked = false;
   let pendingHref = null;
 
   function showLock(event) {
-    if (locked) return;
+    if (locked || unlocked) return;
     if (event) {
       const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
       if (anchor) pendingHref = anchor.getAttribute('href');
@@ -92,6 +93,7 @@
     }
     layer.classList.remove('visible');
     locked = false;
+    unlocked = true;
     input.value = '';
     const destination = pendingHref;
     pendingHref = null;
