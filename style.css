@@ -521,3 +521,48 @@ body.boot-active{overflow:hidden}
   background: transparent !important;
   box-shadow: none !important;
 }
+
+
+/* Minimal letter-reveal intro inspired by the reference portfolio. */
+body.intro-active{overflow:hidden}
+.designed-intro{
+ position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+ overflow:hidden;background:#111111;color:#fcf3eb;
+ opacity:1;visibility:visible;pointer-events:auto;
+ transition:opacity .65s ease,visibility .65s ease;
+}
+.designed-intro.intro-exit{opacity:0;visibility:hidden;pointer-events:none}
+.designed-intro-dots{
+ position:absolute;inset:0;pointer-events:none;opacity:.10;
+ background-image:radial-gradient(circle,rgba(249,115,22,.55) 1.2px,transparent 1.4px);
+ background-size:38px 38px;
+}
+.designed-intro-letters{
+ position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;
+ align-items:center;gap:.12em;padding:24px;width:min(100%,900px);
+ color:rgba(252,243,235,.42);
+ font-family:"Plus Jakarta Sans",Manrope,system-ui,sans-serif;
+ font-size:clamp(20px,3vw,30px);font-weight:900;
+ letter-spacing:.2em;line-height:1.4;text-align:center;
+ perspective:700px;
+}
+.designed-intro-letters span{
+ display:inline-block;opacity:0;filter:blur(10px);
+ transform:translateY(20px) rotateX(90deg);
+ transform-origin:50% 50%;
+ animation:designedLetterIn .72s cubic-bezier(.16,1,.3,1) forwards;
+ animation-delay:calc(var(--letter-index,0)*72ms);
+}
+.designed-intro-letters .word-space{width:.45em}
+@keyframes designedLetterIn{
+ 0%{opacity:0;filter:blur(10px);transform:translateY(20px) rotateX(90deg)}
+ 65%{opacity:.5;filter:blur(1px)}
+ 100%{opacity:1;filter:blur(0);transform:translateY(0) rotateX(0)}
+}
+@media(max-width:520px){
+ .designed-intro-letters{font-size:clamp(17px,5vw,24px);letter-spacing:.13em;gap:.08em}
+}
+@media(prefers-reduced-motion:reduce){
+ .designed-intro-letters span{animation:none;opacity:1;filter:none;transform:none}
+ .designed-intro,.designed-intro.intro-exit{transition:none}
+}
