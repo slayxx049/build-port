@@ -97,23 +97,46 @@ if(contactCanvas){
 }
 
 
-/* Letter-by-letter Designed by intro. The rest of the page starts normally underneath. */
+/* Designed by transition -> original OLGA loading screen. */
 (()=>{
- const intro=document.getElementById('designedIntro');
- if(!intro)return;
+ const screen=document.getElementById('bootScreen');
+ if(!screen)return;
+ const cinema=document.getElementById('bootCinema');
+ const progress=document.getElementById('bootProgress');
+ const percent=document.getElementById('bootPercent');
+ const status=document.getElementById('bootStatus');
+ const track=screen.querySelector('[role="progressbar"]');
+ const letters=[...screen.querySelectorAll('.designed-by-letters span')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- document.body.classList.add('intro-active');
- const finish=()=>{
-  intro.classList.add('intro-exit');
-  document.body.classList.remove('intro-active');
-  setTimeout(()=>intro.remove(),reduced?30:700);
- };
- if(reduced){setTimeout(finish,350);return}
- const letters=[...intro.querySelectorAll('.designed-intro-letters span')];
- letters.forEach((letter,index)=>{
-  letter.style.setProperty('--letter-index',index);
- });
- const total=letters.length;
- const hold=total*72+1150;
- setTimeout(finish,hold);
+ letters.forEach((letter,index)=>letter.style.setProperty('--letter-index',index));
+ const revealDuration=reduced?250:2100;
+ setTimeout(()=>{
+  screen.classList.add('show-loading');
+  const started=performance.now();
+  let loaded=document.readyState==='complete',fontsReady=!(document.fonts&&document.fonts.ready),value=0,finished=false;
+  addEventListener('load',()=>{loaded=true},{once:true});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fontsReady=true});
+  function tick(now){
+   if(finished)return;
+   const elapsed=now-started;
+   const target=loaded&&fontsReady?100:Math.min(92,12+elapsed/70);
+   value+=(target-value)*(loaded&&fontsReady?.22:.065);
+   if(loaded&&fontsReady&&elapsed>650)value=100;
+   const shown=Math.min(100,Math.floor(value));
+   if(progress)progress.style.width=shown+'%';
+   if(percent)percent.textContent=String(shown).padStart(2,'0')+'%';
+   if(track)track.setAttribute('aria-valuenow',String(shown));
+   if(status)status.textContent=shown<28?'INITIALIZING PORTFOLIO':shown<58?'LOADING RESOURCES':shown<90?'PREPARING EXPERIENCE':'READY TO EXPLORE';
+   if(loaded&&fontsReady&&elapsed>650&&shown>=99){
+    finished=true;
+    if(progress)progress.style.width='100%';
+    if(percent)percent.textContent='100%';
+    if(status)status.textContent='SYSTEM READY';
+    setTimeout(()=>{screen.classList.add('boot-done');setTimeout(()=>screen.remove(),850)},reduced?50:300);
+    return;
+   }
+   requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+ },revealDuration);
 })();
