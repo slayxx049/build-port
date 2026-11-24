@@ -104,19 +104,6 @@ const wc=document.getElementById('worldCanvas'),wctx=wc.getContext('2d');let ws;
 function size(c){const d=Math.min(devicePixelRatio||1,2),r=c.getBoundingClientRect();c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);return{w:c.width,h:c.height,d}}
 function resizeWorld(){ws=size(wc)}resizeWorld();let angle=0;
 function globe(){const{w,h,d}=ws;wctx.clearRect(0,0,w,h);wctx.save();wctx.translate(w/2,h*.48);const R=Math.min(w,h)*.36;angle+=reduceMotion?0:.0025;const pt=(lat,lon)=>{lon+=angle;const cl=Math.cos(lat);return{x:R*cl*Math.sin(lon),y:R*Math.sin(lat),z:R*cl*Math.cos(lon)}};wctx.strokeStyle='rgba(116,223,255,.2)';wctx.lineWidth=d;for(let lat=-1.2;lat<=1.21;lat+=.3){wctx.beginPath();let on=false;for(let lon=0;lon<=Math.PI*2+.04;lon+=.06){const p=pt(lat,lon);if(p.z>0){if(!on){wctx.moveTo(p.x,p.y);on=true}else wctx.lineTo(p.x,p.y)}else on=false}wctx.stroke()}for(let lon=0;lon<Math.PI*2;lon+=Math.PI/8){wctx.beginPath();let on=false;for(let lat=-Math.PI/2;lat<=Math.PI/2+.03;lat+=.04){const p=pt(lat,lon);if(p.z>0){if(!on){wctx.moveTo(p.x,p.y);on=true}else wctx.lineTo(p.x,p.y)}else on=false}wctx.stroke()}for(let i=0;i<190;i++){const lat=Math.asin(-1+2*(i+.5)/190),lon=Math.PI*(1+Math.sqrt(5))*i,p=pt(lat,lon);if(p.z>0){wctx.fillStyle=i%9===0?'rgba(202,255,104,.95)':'rgba(116,223,255,.8)';wctx.beginPath();wctx.arc(p.x,p.y,(i%9===0?2:1)*d,0,Math.PI*2);wctx.fill()}}wctx.restore();if(!reduceMotion)requestAnimationFrame(globe)}globe();addEventListener('resize',resizeWorld);
-// Pointer-responsive ambient light for the build-history section.
-const historyLight=document.getElementById('history');
-if(historyLight){
- historyLight.addEventListener('pointermove',event=>{
-  const rect=historyLight.getBoundingClientRect();
-  historyLight.style.setProperty('--history-light-x',((event.clientX-rect.left)/rect.width*100)+'%');
-  historyLight.style.setProperty('--history-light-y',((event.clientY-rect.top)/rect.height*100)+'%');
- });
- historyLight.addEventListener('pointerleave',()=>{
-  historyLight.style.setProperty('--history-light-x','48%');
-  historyLight.style.setProperty('--history-light-y','24%');
- });
-}
 // Cosmic star field now belongs to the build-history section.
 const hc=document.getElementById('historyCanvas'),hctx=hc.getContext('2d');let hs=size(hc),ht=0;
 function resizeHistory(){hs=size(hc)}resizeHistory();
