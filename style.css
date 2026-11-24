@@ -637,54 +637,40 @@ body.boot-active{overflow:hidden}
  .project-tabs{gap:24px}
 }
 
-/* Timeline scroll-ray: the luminous cyan/green line advances through the milestones as the page scrolls. */
+/* A distinct travelling ray sits ON the timeline connector and moves between every project milestone. */
 .timeline{isolation:isolate}
 .timeline:before{
- z-index:0;
- width:2px;
- left:149px;
- background:rgba(116,223,255,.18);
- box-shadow:0 0 7px rgba(116,223,255,.12);
-}
-.timeline:after{
- z-index:1;
- left:148px;
- width:4px;
- background:linear-gradient(to bottom,rgba(202,255,104,.95) 0%,rgba(116,223,255,1) 52%,rgba(202,255,104,.95) 100%);
- box-shadow:0 0 5px rgba(116,223,255,.95),0 0 13px rgba(116,223,255,.65),0 0 24px rgba(116,223,255,.25);
-}
-.timeline .event{position:relative;z-index:2}
-.timeline .dot{z-index:3}
-@media(max-width:700px){
- .timeline:before{left:100px}
- .timeline:after{left:99px}
-}
-
-
-/* Scroll-driven luminous timeline beam: it grows down the connector as visitors move through the project milestones. */
-.timeline:after{
  content:"";
+ position:absolute;
+ left:150px;
+ top:0;
+ bottom:0;
+ width:1px;
+ background:#4a5b6a;
+ z-index:0;
+}
+.timeline:after{content:none!important}
+.timeline-ray{
  position:absolute;
  left:148px;
  top:0;
- bottom:0;
- width:3px;
- height:auto;
- transform:scaleY(var(--timeline-progress,0));
- transform-origin:top center;
- background:linear-gradient(to bottom,rgba(238,255,255,.98) 0%,rgba(116,223,255,.96) 48%,rgba(202,255,104,.95) 100%);
- box-shadow:0 0 5px rgba(238,255,255,.9),0 0 11px rgba(116,223,255,.8),0 0 22px rgba(116,223,255,.45);
+ width:5px;
+ height:76px;
+ border-radius:50%;
  pointer-events:none;
- z-index:1;
+ z-index:4;
+ transform:translateY(0);
+ background:linear-gradient(to bottom,transparent 0%,rgba(116,223,255,.3) 16%,#eaffff 43%,#74dfff 60%,#caff68 78%,transparent 100%);
+ filter:drop-shadow(0 0 3px #eaffff) drop-shadow(0 0 7px #74dfff) drop-shadow(0 0 12px rgba(116,223,255,.7));
 }
 .timeline .event{position:relative;z-index:2}
-.timeline .dot{z-index:3}
-/* No glow or spotlight on the BUILT. LEARNED. REBUILT. heading. */
+.timeline .dot{z-index:5}
 .history .history-head h2,
 .history .history-head h2 em{
  text-shadow:none!important;
  filter:none!important;
 }
 @media(max-width:700px){
- .timeline:after{left:99px}
+ .timeline:before{left:100px}
+ .timeline-ray{left:98px}
 }
