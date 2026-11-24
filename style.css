@@ -637,23 +637,25 @@ body.boot-active{overflow:hidden}
  .project-tabs{gap:24px}
 }
 
-
-/* Restore the soft moving light behind the BUILT. LEARNED. REBUILT. history section. */
-.history{--history-light-x:48%;--history-light-y:24%}
-.history:before{
- content:"";
- position:absolute;
- inset:0;
+/* Timeline scroll-ray: the luminous cyan/green line advances through the milestones as the page scrolls. */
+.timeline{isolation:isolate}
+.timeline:before{
  z-index:0;
- pointer-events:none;
- background:
-  radial-gradient(ellipse 420px 300px at var(--history-light-x) var(--history-light-y),rgba(116,223,255,.16),transparent 72%),
-  radial-gradient(ellipse 620px 420px at 50% 18%,rgba(202,255,104,.055),transparent 76%);
- opacity:.95;
- transition:opacity .3s ease;
+ width:2px;
+ left:149px;
+ background:rgba(116,223,255,.18);
+ box-shadow:0 0 7px rgba(116,223,255,.12);
 }
-.history-content{z-index:1}
-.history>canvas{z-index:0;opacity:.85}
-@media(prefers-reduced-motion:reduce){
- .history:before{transition:none}
+.timeline:after{
+ z-index:1;
+ left:148px;
+ width:4px;
+ background:linear-gradient(to bottom,rgba(202,255,104,.95) 0%,rgba(116,223,255,1) 52%,rgba(202,255,104,.95) 100%);
+ box-shadow:0 0 5px rgba(116,223,255,.95),0 0 13px rgba(116,223,255,.65),0 0 24px rgba(116,223,255,.25);
+}
+.timeline .event{position:relative;z-index:2}
+.timeline .dot{z-index:3}
+@media(max-width:700px){
+ .timeline:before{left:100px}
+ .timeline:after{left:99px}
 }
