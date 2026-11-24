@@ -1,3 +1,58 @@
+/* Designed by transition -> original OLGA loading screen. */
+(()=>{
+ const screen=document.getElementById('bootScreen');
+ if(!screen)return;
+ const progress=document.getElementById('bootProgress');
+ const percent=document.getElementById('bootPercent');
+ const status=document.getElementById('bootStatus');
+ const track=screen.querySelector('[role="progressbar"]');
+ const letters=[...screen.querySelectorAll('.designed-by-letters span')];
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ letters.forEach((letter,index)=>letter.style.setProperty('--letter-index',index));
+ let finished=false;
+ const finish=()=>{
+  if(finished)return;
+  finished=true;
+  if(progress)progress.style.width='100%';
+  if(percent)percent.textContent='100%';
+  if(status)status.textContent='SYSTEM READY';
+  if(track)track.setAttribute('aria-valuenow','100');
+  screen.classList.add('show-loading');
+  setTimeout(()=>{
+   screen.classList.add('boot-done');
+   document.body.classList.remove('boot-active');
+   setTimeout(()=>{if(screen.isConnected)screen.remove()},reduced?100:850);
+  },reduced?100:450);
+ };
+ const revealDuration=reduced?250:2100;
+ setTimeout(()=>{
+  if(!screen.isConnected)return;
+  screen.classList.add('show-loading');
+  const started=performance.now();
+  let value=0;
+  const maxWait=6500;
+  function tick(now){
+   if(finished||!screen.isConnected)return;
+   const elapsed=now-started;
+   const target=Math.min(100,12+elapsed/45);
+   value+=(target-value)*0.12;
+   if(elapsed>1800)value=Math.max(value,96);
+   const shown=Math.min(99,Math.floor(value));
+   if(progress)progress.style.width=shown+'%';
+   if(percent)percent.textContent=String(shown).padStart(2,'0')+'%';
+   if(status)status.textContent=shown<28?'INITIALIZING PORTFOLIO':shown<58?'LOADING RESOURCES':shown<90?'PREPARING EXPERIENCE':'READY TO EXPLORE';
+   if(track)track.setAttribute('aria-valuenow',String(shown));
+   if(elapsed>=maxWait){finish();return}
+   if(elapsed>=2600&&document.readyState==='complete'){
+    finish();return;
+   }
+   requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+ },revealDuration);
+})();
+ 
+
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=matchMedia('(pointer:fine)').matches;
 // Reversible reveal: elements animate in and out as the visitor scrolls in either direction.
@@ -97,59 +152,6 @@ if(contactCanvas){
 }
 
 
-/* Designed by transition -> original OLGA loading screen. */
-(()=>{
- const screen=document.getElementById('bootScreen');
- if(!screen)return;
- const progress=document.getElementById('bootProgress');
- const percent=document.getElementById('bootPercent');
- const status=document.getElementById('bootStatus');
- const track=screen.querySelector('[role="progressbar"]');
- const letters=[...screen.querySelectorAll('.designed-by-letters span')];
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- letters.forEach((letter,index)=>letter.style.setProperty('--letter-index',index));
- let finished=false;
- const finish=()=>{
-  if(finished)return;
-  finished=true;
-  if(progress)progress.style.width='100%';
-  if(percent)percent.textContent='100%';
-  if(status)status.textContent='SYSTEM READY';
-  if(track)track.setAttribute('aria-valuenow','100');
-  screen.classList.add('show-loading');
-  setTimeout(()=>{
-   screen.classList.add('boot-done');
-   setTimeout(()=>{if(screen.isConnected)screen.remove()},reduced?100:850);
-  },reduced?100:450);
- };
- const revealDuration=reduced?250:2100;
- setTimeout(()=>{
-  if(!screen.isConnected)return;
-  screen.classList.add('show-loading');
-  const started=performance.now();
-  let value=0;
-  const maxWait=6500;
-  function tick(now){
-   if(finished||!screen.isConnected)return;
-   const elapsed=now-started;
-   const target=Math.min(100,12+elapsed/45);
-   value+=(target-value)*0.12;
-   if(elapsed>1800)value=Math.max(value,96);
-   const shown=Math.min(99,Math.floor(value));
-   if(progress)progress.style.width=shown+'%';
-   if(percent)percent.textContent=String(shown).padStart(2,'0')+'%';
-   if(status)status.textContent=shown<28?'INITIALIZING PORTFOLIO':shown<58?'LOADING RESOURCES':shown<90?'PREPARING EXPERIENCE':'READY TO EXPLORE';
-   if(track)track.setAttribute('aria-valuenow',String(shown));
-   if(elapsed>=maxWait){finish();return}
-   if(elapsed>=2600&&document.readyState==='complete'){
-    finish();return;
-   }
-   requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
- },revealDuration);
-})();
- 
 /* Interactive featured-project tabs. No project numbering is displayed. */
 (()=>{
  const tabs=[...document.querySelectorAll('.project-tab')];
