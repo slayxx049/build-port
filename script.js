@@ -140,3 +140,38 @@ if(contactCanvas){
   requestAnimationFrame(tick);
  },revealDuration);
 })();
+
+
+/* Interactive featured-project tabs. No project numbering is displayed. */
+(()=>{
+ const tabs=[...document.querySelectorAll('.project-tab')];
+ const title=document.getElementById('projectTitle');
+ if(!tabs.length||!title)return;
+ const projects=[
+  {title:'AI Job Finder',status:'BUILT',statusClass:'built',type:'CAREER TOOLS · WEB APPLICATION',lead:'Find relevant opportunities and understand how your resume aligns with a role.',description:'A job-discovery web application with resume upload and ATS-related checking. Built with a Python application layer, API integrations, backend services, and database storage.',tags:['Python','APIs','Backend','Databases'],visual:'job'},
+  {title:'Daily Mini Bytes',status:'BUILT',statusClass:'built',type:'NEWS · BLOG · TECHNOLOGY',lead:'A publishing space for news, ideas, and technology updates.',description:'A news, blog, and technology publishing platform with administrator, editor, and visitor roles, theme options, content publishing, and reader-engagement features.',tags:['HTML','Web Development','Backend','Databases'],visual:'dmb'},
+  {title:'Mobile Bluetooth Bridge',status:'BUILT',statusClass:'built',type:'ANDROID · BLUETOOTH',lead:'Connect. Transfer. Bridge.',description:'An Android prototype exploring Bluetooth bridging and authenticated local communication, packaged using an Android Gradle build workflow.',tags:['Android','Bluetooth','Gradle'],visual:'bridge'},
+  {title:'Oxford Tutor',status:'IN DEVELOPMENT',statusClass:'building',type:'LOCAL AI · EDUCATION',lead:'A local AI assistant for guided English practice.',description:'An offline English-learning assistant being developed around a locally run AI model, designed to support vocabulary, explanations, and guided language practice.',tags:['Ollama','Phi-3','Local AI'],visual:'oxford'},
+  {title:'College Deadline Reminder',status:'IN DEVELOPMENT',statusClass:'building',type:'STUDENT PRODUCTIVITY',lead:'Keep academic dates and tasks in one organised place.',description:'A student-focused reminder platform for registrations, assignments, and academic deadlines, with calendar views, completion tracking, and notification workflows.',tags:['Web App','Calendar','Notifications'],visual:'deadlines'},
+  {title:'SWASTHYASETU',status:'IN DEVELOPMENT',statusClass:'building',type:'HEALTHCARE · CONNECTIVITY',lead:'Bridging the gap between people and healthcare.',description:'A healthcare initiative focused on improving access and coordination for rural communities and older adults.',tags:['Healthcare Technology','Accessibility','Digital Services'],visual:'health'}
+ ];
+ const visual=document.getElementById('projectVisual'),status=document.getElementById('projectStatus'),type=document.getElementById('projectType'),lead=document.getElementById('projectLead'),description=document.getElementById('projectDescription'),tags=document.getElementById('projectTags'),progress=document.getElementById('projectProgress');
+ function select(index){
+  const p=projects[index];if(!p)return;
+  tabs.forEach((tab,i)=>{const active=i===index;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1});
+  title.textContent=p.title;status.textContent=p.status;status.className='project-status '+p.statusClass;
+  type.textContent=p.type;lead.textContent=p.lead;description.textContent=p.description;
+  tags.replaceChildren(...p.tags.map(tag=>{const el=document.createElement('span');el.textContent=tag;return el}));
+  visual.className='project-visual'+(p.visual==='dmb'?' brand-dmb':p.visual==='bridge'?' brand-bridge':p.visual==='oxford'?' brand-oxford':p.visual==='deadlines'?' brand-deadlines':p.visual==='health'?' brand-health':'');
+  visual.setAttribute('aria-label',p.title+' project preview');
+  if(p.visual==='job')visual.innerHTML='<div class="visual-window"><div class="visual-top"><i></i><i></i><i></i><span>JOB FINDER / DASHBOARD</span></div><div class="job-preview"><div class="job-sidebar"><b>J</b><span></span><span></span><span></span></div><div class="job-main"><small>YOUR SEARCH, IN ONE PLACE</small><strong>Find your next<br>opportunity.</strong><div class="job-searchbar">Search roles, skills, companies <b>↗</b></div><div class="job-metrics"><span><b>Resume</b><small>Uploaded</small></span><span><b>Match</b><small>Role insights</small></span></div></div></div></div>';
+  else if(p.visual==='dmb')visual.innerHTML='<div class="visual-window"><div class="brand-word">DAILY MINI BYTES</div></div>';
+  else if(p.visual==='bridge')visual.innerHTML='<div class="visual-window"><div class="brand-mark">ᛒ<small>MobileBluetoothBridge<br>CONNECT · TRANSFER · BRIDGE</small></div></div>';
+  else if(p.visual==='oxford')visual.innerHTML='<div class="visual-window"><div class="brand-mark">Oxford Tutor<small>LOCAL LANGUAGE ASSISTANT · PHI-3</small></div></div>';
+  else if(p.visual==='deadlines')visual.innerHTML='<div class="visual-window"><div class="brand-mark">Your semester,<br>in control.<small>ASSIGNMENTS · EVENTS · REMINDERS</small></div></div>';
+  else visual.innerHTML='<div class="visual-window"><div class="brand-mark">SWASTHYASETU<small>BRIDGING PEOPLE AND HEALTHCARE</small></div></div>';
+  if(progress)progress.style.transform='scaleX('+(index+1)/projects.length+')';
+ }
+ tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const next=(index+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();select(next)}})});
+ select(0);
+})();
