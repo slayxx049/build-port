@@ -573,3 +573,66 @@ body.boot-active{overflow:hidden}
  .designed-by-letters span{animation:none;opacity:1;filter:none;transform:none}
  .boot-cinema,.boot-loading{transition:none}
 }
+
+
+/* Editorial featured-project showcase — name tabs, no numbered labels. */
+.project-showcase{margin:clamp(42px,7vw,82px) auto 0;max-width:1180px;border-top:1px solid #ffffff26}
+.project-tabs{display:flex;gap:clamp(18px,3vw,42px);overflow-x:auto;scrollbar-width:none;padding:18px 2px 16px}
+.project-tabs::-webkit-scrollbar{display:none}
+.project-tab{position:relative;flex:0 0 auto;border:0;background:none;color:#8c8e99;font:500 13px 'DM Mono',monospace;padding:8px 0;cursor:pointer;transition:color .25s ease}
+.project-tab:hover,.project-tab.active{color:#e9e9ed}
+.project-tab.active:after{content:"";position:absolute;left:0;right:0;bottom:-17px;height:2px;background:#a9ff73;box-shadow:0 0 12px #a9ff7355}
+.project-progress{height:1px;background:#ffffff20;overflow:hidden}
+.project-progress span{display:block;width:16.666%;height:100%;background:#a9ff73;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.project-feature{display:grid;grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);gap:clamp(28px,5vw,72px);align-items:stretch;padding:clamp(28px,5vw,58px) 0}
+.project-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:340px}
+.project-title-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.project-title-line h3{margin:0;font:700 clamp(28px,4vw,44px)/1.05 'Manrope',sans-serif;letter-spacing:-.055em;color:#f4f3f0}
+.project-status{font:10px 'DM Mono',monospace;letter-spacing:.12em;padding:6px 9px;border:1px solid #ffffff30;color:#b9ff8a}
+.project-status.building{color:#f4c878;border-color:#f4c87855}
+.project-type{margin:18px 0 0;color:#a9ff73;font:10px 'DM Mono',monospace;letter-spacing:.16em}
+.project-lead{margin:22px 0 0;color:#e7e5e1;font:600 clamp(17px,2vw,21px)/1.5 'Manrope',sans-serif;max-width:440px}
+.project-description{margin:13px 0 0;color:#a4a4ad;font:14px/1.8 'Manrope',sans-serif;max-width:470px}
+.project-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:23px}
+.project-tags span{border:1px solid #ffffff25;border-radius:3px;padding:7px 9px;color:#c5c5cb;font:10px 'DM Mono',monospace}
+.project-visual{position:relative;min-height:350px;overflow:hidden;border:1px solid #ffffff25;border-radius:5px;background:#101116;display:grid;place-items:center;padding:clamp(16px,3vw,30px);transition:background .35s ease}
+.project-visual:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,#a9ff7310,transparent 65%);pointer-events:none}
+.visual-window{position:relative;width:100%;min-height:285px;background:#171920;border:1px solid #ffffff20;box-shadow:0 22px 70px #0008;overflow:hidden}
+.visual-top{height:34px;border-bottom:1px solid #ffffff18;display:flex;align-items:center;gap:6px;padding:0 12px;color:#828590;font:9px 'DM Mono',monospace}
+.visual-top i{width:6px;height:6px;border-radius:50%;background:#70737b}
+.visual-top span{margin-left:8px;letter-spacing:.12em}
+.job-preview{display:flex;min-height:250px}
+.job-sidebar{width:48px;border-right:1px solid #ffffff15;display:flex;flex-direction:column;align-items:center;gap:22px;padding:15px 0;color:#a9ff73}
+.job-sidebar b{font:700 18px 'Manrope'}
+.job-sidebar span{width:13px;height:13px;border:1px solid #ffffff45;border-radius:4px}
+.job-main{padding:24px clamp(16px,3vw,32px);flex:1}
+.job-main small{display:block;color:#a9ff73;font:9px 'DM Mono';letter-spacing:.15em}
+.job-main strong{display:block;margin-top:13px;color:#f4f3f0;font:700 clamp(24px,3vw,36px)/1.08 'Manrope';letter-spacing:-.05em}
+.job-searchbar{margin-top:20px;border:1px solid #ffffff2c;padding:12px;color:#898b95;font:10px 'DM Mono';display:flex;justify-content:space-between}
+.job-searchbar b{color:#a9ff73}
+.job-metrics{display:flex;gap:10px;margin-top:12px}
+.job-metrics span{flex:1;padding:10px;background:#ffffff08;border:1px solid #ffffff12}
+.job-metrics b,.job-metrics small{display:block}.job-metrics b{font:11px 'Manrope';color:#e5e5e8}.job-metrics small{margin-top:4px;color:#858995;font:9px 'DM Mono'}
+.project-visual.brand-dmb{background:#f7f7f4}
+.project-visual.brand-dmb:before{background:radial-gradient(ellipse at 50% 50%,#00000008,transparent 65%)}
+.brand-dmb .visual-window{background:#fff;border:0;box-shadow:none;display:grid;place-items:center;min-height:190px}
+.brand-dmb .visual-top{display:none}
+.brand-dmb .brand-word{font:900 clamp(26px,5vw,58px)/1 'Bungee',sans-serif;color:#090909;text-align:center;letter-spacing:-.04em}
+.project-visual.brand-bridge{background:#05090d}
+.brand-bridge .visual-window{background:transparent;border:0;box-shadow:none;display:grid;place-items:center;min-height:230px}
+.brand-bridge .visual-top{display:none}
+.brand-bridge .brand-mark{color:#00e5ff;font:900 clamp(48px,8vw,90px)/1 'Michroma',sans-serif;text-align:center;text-shadow:0 0 25px #00e5ff44}
+.brand-bridge .brand-mark small{display:block;color:#e5e7eb;font:500 clamp(15px,2vw,22px) 'DM Mono';margin-top:18px}
+.project-visual.brand-oxford{background:radial-gradient(circle at 70% 30%,#273f6b,#101521 65%)}
+.brand-oxford .brand-mark,.brand-deadlines .brand-mark,.brand-health .brand-mark{font:700 clamp(35px,5vw,62px) 'Manrope';color:#f5f5f5;text-align:center}
+.brand-oxford .brand-mark small,.brand-deadlines .brand-mark small,.brand-health .brand-mark small{display:block;font:11px 'DM Mono';letter-spacing:.16em;color:#b9c0ce;margin-top:15px}
+.project-visual.brand-deadlines{background:linear-gradient(135deg,#202b38,#11161d)}
+.project-visual.brand-health{background:linear-gradient(135deg,#eaf5f5,#dceef0)}
+.brand-health .brand-mark{color:#0967b7}
+.brand-health .brand-mark small{color:#28506d}
+@media(max-width:760px){
+ .project-feature{grid-template-columns:1fr;gap:24px;padding:28px 0}
+ .project-copy{min-height:0}
+ .project-visual{min-height:280px}
+ .project-tabs{gap:24px}
+}
