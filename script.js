@@ -101,47 +101,55 @@ if(contactCanvas){
 (()=>{
  const screen=document.getElementById('bootScreen');
  if(!screen)return;
- const cinema=document.getElementById('bootCinema');
  const progress=document.getElementById('bootProgress');
  const percent=document.getElementById('bootPercent');
  const status=document.getElementById('bootStatus');
  const track=screen.querySelector('[role="progressbar"]');
  const letters=[...screen.querySelectorAll('.designed-by-letters span')];
- const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  letters.forEach((letter,index)=>letter.style.setProperty('--letter-index',index));
+ let finished=false;
+ const finish=()=>{
+  if(finished)return;
+  finished=true;
+  if(progress)progress.style.width='100%';
+  if(percent)percent.textContent='100%';
+  if(status)status.textContent='SYSTEM READY';
+  if(track)track.setAttribute('aria-valuenow','100');
+  screen.classList.add('show-loading');
+  setTimeout(()=>{
+   screen.classList.add('boot-done');
+   setTimeout(()=>{if(screen.isConnected)screen.remove()},reduced?100:850);
+  },reduced?100:450);
+ };
  const revealDuration=reduced?250:2100;
  setTimeout(()=>{
+  if(!screen.isConnected)return;
   screen.classList.add('show-loading');
   const started=performance.now();
-  let loaded=document.readyState==='complete',fontsReady=!(document.fonts&&document.fonts.ready),value=0,finished=false;
-  addEventListener('load',()=>{loaded=true},{once:true});
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fontsReady=true});
+  let value=0;
+  const maxWait=6500;
   function tick(now){
-   if(finished)return;
+   if(finished||!screen.isConnected)return;
    const elapsed=now-started;
-   const target=loaded&&fontsReady?100:Math.min(92,12+elapsed/70);
-   value+=(target-value)*(loaded&&fontsReady?.22:.065);
-   if(loaded&&fontsReady&&elapsed>650)value=100;
-   const shown=Math.min(100,Math.floor(value));
+   const target=Math.min(100,12+elapsed/45);
+   value+=(target-value)*0.12;
+   if(elapsed>1800)value=Math.max(value,96);
+   const shown=Math.min(99,Math.floor(value));
    if(progress)progress.style.width=shown+'%';
    if(percent)percent.textContent=String(shown).padStart(2,'0')+'%';
-   if(track)track.setAttribute('aria-valuenow',String(shown));
    if(status)status.textContent=shown<28?'INITIALIZING PORTFOLIO':shown<58?'LOADING RESOURCES':shown<90?'PREPARING EXPERIENCE':'READY TO EXPLORE';
-   if(loaded&&fontsReady&&elapsed>650&&shown>=99){
-    finished=true;
-    if(progress)progress.style.width='100%';
-    if(percent)percent.textContent='100%';
-    if(status)status.textContent='SYSTEM READY';
-    setTimeout(()=>{screen.classList.add('boot-done');setTimeout(()=>screen.remove(),850)},reduced?50:300);
-    return;
+   if(track)track.setAttribute('aria-valuenow',String(shown));
+   if(elapsed>=maxWait){finish();return}
+   if(elapsed>=2600&&document.readyState==='complete'){
+    finish();return;
    }
    requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
  },revealDuration);
 })();
-
-
+ 
 /* Interactive featured-project tabs. No project numbering is displayed. */
 (()=>{
  const tabs=[...document.querySelectorAll('.project-tab')];
