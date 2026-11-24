@@ -112,7 +112,7 @@ let pointer={x:.5,y:.5};hc.addEventListener('pointermove',e=>{const r=hc.getBoun
 function historyCosmos(){const{w,h,d}=hs;hctx.clearRect(0,0,w,h);ht+=reduceMotion?0:.002;for(const s of stars){const drift=Math.sin(ht+s.p)*.008,px=(s.x+drift+(pointer.x-.5)*.012*s.z+1)%1,py=(s.y+Math.cos(ht*.7+s.p)*.006+(pointer.y-.5)*.012*s.z+1)%1;hctx.fillStyle=s.z>.88?'rgba(202,255,104,'+(.22+s.z*.5)+')':'rgba(128,165,220,'+(.12+s.z*.48)+')';hctx.beginPath();hctx.arc(px*w,py*h,s.s*d,0,Math.PI*2);hctx.fill()}if(!reduceMotion)requestAnimationFrame(historyCosmos)}historyCosmos();addEventListener('resize',resizeHistory);
 // Timeline progress follows scroll position in both directions, so scrolling upward rewinds the line.
 const historySection=document.getElementById('history'),timeline=historySection.querySelector('.timeline');let progressFrame=false;
-function updateTimeline(){progressFrame=false;const r=timeline.getBoundingClientRect(),vh=innerHeight;const start=vh*.78,end=-r.height+vh*.22;const p=Math.max(0,Math.min(1,(start-r.top)/(start-end)));timeline.style.setProperty('--timeline-progress',p.toFixed(4))}
+function updateTimeline(){progressFrame=false;const r=timeline.getBoundingClientRect(),vh=innerHeight;const start=vh*.78,end=-r.height+vh*.22;const p=Math.max(0,Math.min(1,(start-r.top)/(start-end)));timeline.style.setProperty('--timeline-progress',p.toFixed(4));timeline.style.setProperty('--timeline-ray-y',(p*100).toFixed(2)+'%')}
 function requestTimelineUpdate(){if(!progressFrame){progressFrame=true;requestAnimationFrame(updateTimeline)}}
 addEventListener('scroll',requestTimelineUpdate,{passive:true});addEventListener('resize',requestTimelineUpdate);updateTimeline();
 
