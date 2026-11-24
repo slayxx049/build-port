@@ -661,25 +661,25 @@ body.boot-active{overflow:hidden}
 }
 
 
-/* Timeline beam: a short, bright ray travels down the connector as the visitor scrolls. */
+/* Scroll-driven luminous timeline beam: it grows down the connector as visitors move through the project milestones. */
 .timeline:after{
  content:"";
  position:absolute;
  left:148px;
- top:var(--timeline-ray-y,0%);
- bottom:auto;
- width:4px;
- height:88px;
- transform:translateY(-50%);
- transform-origin:center;
- background:linear-gradient(to bottom,transparent 0%,rgba(116,223,255,.45) 20%,#e9ffff 48%,var(--lime) 66%,rgba(116,223,255,.25) 86%,transparent 100%);
- box-shadow:0 0 5px rgba(116,223,255,.95),0 0 12px rgba(116,223,255,.7),0 0 23px rgba(116,223,255,.35);
+ top:0;
+ bottom:0;
+ width:3px;
+ height:auto;
+ transform:scaleY(var(--timeline-progress,0));
+ transform-origin:top center;
+ background:linear-gradient(to bottom,rgba(238,255,255,.98) 0%,rgba(116,223,255,.96) 48%,rgba(202,255,104,.95) 100%);
+ box-shadow:0 0 5px rgba(238,255,255,.9),0 0 11px rgba(116,223,255,.8),0 0 22px rgba(116,223,255,.45);
  pointer-events:none;
  z-index:1;
 }
 .timeline .event{position:relative;z-index:2}
 .timeline .dot{z-index:3}
-/* Keep the dimensional heading type, but remove any glow/filter from the heading itself. */
+/* No glow or spotlight on the BUILT. LEARNED. REBUILT. heading. */
 .history .history-head h2,
 .history .history-head h2 em{
  text-shadow:none!important;
