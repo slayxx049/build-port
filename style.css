@@ -636,3 +636,24 @@ body.boot-active{overflow:hidden}
  .project-visual{min-height:280px}
  .project-tabs{gap:24px}
 }
+
+
+/* Restore the soft moving light behind the BUILT. LEARNED. REBUILT. history section. */
+.history{--history-light-x:48%;--history-light-y:24%}
+.history:before{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:0;
+ pointer-events:none;
+ background:
+  radial-gradient(ellipse 420px 300px at var(--history-light-x) var(--history-light-y),rgba(116,223,255,.16),transparent 72%),
+  radial-gradient(ellipse 620px 420px at 50% 18%,rgba(202,255,104,.055),transparent 76%);
+ opacity:.95;
+ transition:opacity .3s ease;
+}
+.history-content{z-index:1}
+.history>canvas{z-index:0;opacity:.85}
+@media(prefers-reduced-motion:reduce){
+ .history:before{transition:none}
+}
