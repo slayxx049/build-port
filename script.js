@@ -207,7 +207,7 @@ if(contactCanvas){
   else if(p.visual==='oxford')visual.innerHTML='<div class="visual-window"><div class="brand-mark">Oxford Tutor<small>LOCAL LANGUAGE ASSISTANT · PHI-3</small></div></div>';
   else if(p.visual==='deadlines')visual.innerHTML='<div class="visual-window"><div class="brand-mark">Your semester,<br>in control.<small>ASSIGNMENTS · EVENTS · REMINDERS</small></div></div>';
   else visual.innerHTML='<div class="visual-window"><div class="brand-mark">SWASTHYASETU<small>BRIDGING PEOPLE AND HEALTHCARE</small></div></div>';
-  if(progress)progress.style.transform='scaleX('+(index+1)/projects.length+')';
+  if(progress)progress.style.width=((index+1)/projects.length*100)+'%';
  }
  tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const next=(index+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();select(next)}})});
  select(0);
