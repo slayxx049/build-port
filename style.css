@@ -659,3 +659,32 @@ body.boot-active{overflow:hidden}
  .timeline:before{left:100px}
  .timeline:after{left:99px}
 }
+
+
+/* Timeline beam: a short, bright ray travels down the connector as the visitor scrolls. */
+.timeline:after{
+ content:"";
+ position:absolute;
+ left:148px;
+ top:var(--timeline-ray-y,0%);
+ bottom:auto;
+ width:4px;
+ height:88px;
+ transform:translateY(-50%);
+ transform-origin:center;
+ background:linear-gradient(to bottom,transparent 0%,rgba(116,223,255,.45) 20%,#e9ffff 48%,var(--lime) 66%,rgba(116,223,255,.25) 86%,transparent 100%);
+ box-shadow:0 0 5px rgba(116,223,255,.95),0 0 12px rgba(116,223,255,.7),0 0 23px rgba(116,223,255,.35);
+ pointer-events:none;
+ z-index:1;
+}
+.timeline .event{position:relative;z-index:2}
+.timeline .dot{z-index:3}
+/* Keep the dimensional heading type, but remove any glow/filter from the heading itself. */
+.history .history-head h2,
+.history .history-head h2 em{
+ text-shadow:none!important;
+ filter:none!important;
+}
+@media(max-width:700px){
+ .timeline:after{left:99px}
+}
