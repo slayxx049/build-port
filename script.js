@@ -125,6 +125,11 @@ if(timeline){
  timelineRay.className='timeline-ray';
  timelineRay.setAttribute('aria-hidden','true');
  timeline.prepend(timelineRay);
+ const connectorLeft=parseFloat(getComputedStyle(timeline,'::before').left);
+ if(Number.isFinite(connectorLeft)){
+  timelineRay.style.left=(connectorLeft-1)+'px';
+  timelineRay.style.width='3px';
+ }
  let progressFrame=0;
  function updateTimelineRay(){
   progressFrame=0;
