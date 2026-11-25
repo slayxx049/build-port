@@ -654,14 +654,20 @@ body.boot-active{overflow:hidden}
  position:absolute;
  left:148px;
  top:0;
- width:5px;
- height:76px;
- border-radius:50%;
+ width:3px;
+ height:170px;
+ border-radius:3px;
  pointer-events:none;
  z-index:4;
  transform:translateY(0);
- background:linear-gradient(to bottom,transparent 0%,rgba(116,223,255,.3) 16%,#eaffff 43%,#74dfff 60%,#caff68 78%,transparent 100%);
- filter:drop-shadow(0 0 3px #eaffff) drop-shadow(0 0 7px #74dfff) drop-shadow(0 0 12px rgba(116,223,255,.7));
+ background:linear-gradient(to bottom,
+  rgba(202,255,104,0) 0%,
+  rgba(202,255,104,.95) 17%,
+  #eaffff 20%,
+  #74dfff 27%,
+  rgba(116,223,255,.82) 76%,
+  rgba(116,223,255,0) 100%);
+ filter:drop-shadow(0 0 2px #eaffff) drop-shadow(0 0 6px #74dfff) drop-shadow(0 0 10px rgba(116,223,255,.62));
 }
 .timeline .event{position:relative;z-index:2}
 .timeline .dot{z-index:5}
@@ -672,22 +678,5 @@ body.boot-active{overflow:hidden}
 }
 @media(max-width:700px){
  .timeline:before{left:8px}
- .timeline-ray{
- position:absolute;
- left:148px;
- top:0;
- width:3px;
- height:170px;
- border-radius:3px;
- pointer-events:none;
- z-index:4;
- transform:translateY(0);
- background:linear-gradient(to bottom,
-  rgba(202,255,104,.0) 0%,
-  rgba(202,255,104,.95) 17%,
-  #eaffff 20%,
-  #74dfff 27%,
-  rgba(116,223,255,.82) 76%,
-  rgba(116,223,255,0) 100%);
- filter:drop-shadow(0 0 2px #eaffff) drop-shadow(0 0 6px #74dfff) drop-shadow(0 0 10px rgba(116,223,255,.62));
+ .timeline-ray{left:7px}
 }
