@@ -125,11 +125,14 @@ if(timeline){
  timelineRay.className='timeline-ray';
  timelineRay.setAttribute('aria-hidden','true');
  timeline.prepend(timelineRay);
- const connectorLeft=parseFloat(getComputedStyle(timeline,'::before').left);
- if(Number.isFinite(connectorLeft)){
-  timelineRay.style.left=(connectorLeft-1)+'px';
-  timelineRay.style.width='3px';
+ function alignTimelineRay(){
+  const connectorLeft=parseFloat(getComputedStyle(timeline,'::before').left);
+  if(Number.isFinite(connectorLeft)){
+   timelineRay.style.left=(connectorLeft-1)+'px';
+   timelineRay.style.width='3px';
+  }
  }
+ alignTimelineRay();
  let progressFrame=0;
  function updateTimelineRay(){
   progressFrame=0;
@@ -147,11 +150,15 @@ if(timeline){
  function requestTimelineRayUpdate(){
   if(!progressFrame)progressFrame=requestAnimationFrame(updateTimelineRay);
  }
+ function resizeTimelineRay(){
+  alignTimelineRay();
+  requestTimelineRayUpdate();
+ }
  window.addEventListener('scroll',requestTimelineRayUpdate,{passive:true});
- window.addEventListener('resize',requestTimelineRayUpdate,{passive:true});
+ window.addEventListener('resize',resizeTimelineRay,{passive:true});
  window.addEventListener('load',requestTimelineRayUpdate,{once:true});
  if('ResizeObserver' in window){
-  const rayResizeObserver=new ResizeObserver(requestTimelineRayUpdate);
+  const rayResizeObserver=new ResizeObserver(resizeTimelineRay);
   rayResizeObserver.observe(timeline);
  }
  if(document.fonts?.ready)document.fonts.ready.then(requestTimelineRayUpdate);
