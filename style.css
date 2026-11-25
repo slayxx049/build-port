@@ -671,6 +671,6 @@ body.boot-active{overflow:hidden}
  filter:none!important;
 }
 @media(max-width:700px){
- .timeline:before{left:100px}
- .timeline-ray{left:98px}
+ .timeline:before{left:8px}
+ .timeline-ray{left:7px}
 }
