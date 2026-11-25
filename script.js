@@ -116,7 +116,8 @@ function resizeHistory(){hs=size(hc)}resizeHistory();
 const stars=Array.from({length:950},()=>({x:Math.random(),y:Math.random(),z:.15+Math.random()*.85,s:.3+Math.random()*1.15,p:Math.random()*6.28}));
 let pointer={x:.5,y:.5};hc.addEventListener('pointermove',e=>{const r=hc.getBoundingClientRect();pointer.x=(e.clientX-r.left)/r.width;pointer.y=(e.clientY-r.top)/r.height});
 function historyCosmos(){const{w,h,d}=hs;hctx.clearRect(0,0,w,h);ht+=reduceMotion?0:.002;for(const s of stars){const drift=Math.sin(ht+s.p)*.008,px=(s.x+drift+(pointer.x-.5)*.012*s.z+1)%1,py=(s.y+Math.cos(ht*.7+s.p)*.006+(pointer.y-.5)*.012*s.z+1)%1;hctx.fillStyle=s.z>.88?'rgba(202,255,104,'+(.22+s.z*.5)+')':'rgba(128,165,220,'+(.12+s.z*.48)+')';hctx.beginPath();hctx.arc(px*w,py*h,s.s*d,0,Math.PI*2);hctx.fill()}if(!reduceMotion)requestAnimationFrame(historyCosmos)}historyCosmos();addEventListener('resize',resizeHistory);
-// The travelling ray follows the timeline connector as the visitor scrolls.
+// Keep the travelling ray centred on the connector and map its travel to the
+// timeline's real rendered height (not scrollHeight, which can include overflow).
 const historySection=document.getElementById('history');
 const timeline=historySection?.querySelector('.timeline');
 if(timeline){
@@ -125,27 +126,36 @@ if(timeline){
  timelineRay.setAttribute('aria-hidden','true');
  timeline.prepend(timelineRay);
  const connectorLeft=parseFloat(getComputedStyle(timeline,'::before').left);
- if(Number.isFinite(connectorLeft))timelineRay.style.left=(connectorLeft-1)+'px';
- let progressFrame=false;
+ if(Number.isFinite(connectorLeft)){
+  timelineRay.style.left=(connectorLeft-1)+'px';
+  timelineRay.style.width='3px';
+ }
+ let progressFrame=0;
  function updateTimelineRay(){
-  progressFrame=false;
+  progressFrame=0;
   const rect=timeline.getBoundingClientRect();
   const viewportHeight=window.innerHeight;
-  const start=viewportHeight*.78;
-  const end=-rect.height+viewportHeight*.22;
-  const progress=Math.max(0,Math.min(1,(start-rect.top)/(start-end)));
-  const travel=Math.max(0,timeline.scrollHeight-timelineRay.offsetHeight);
-  timelineRay.style.transform='translate3d(0,'+Math.round(progress*travel)+'px,0)';
+  const trackHeight=timeline.clientHeight;
+  const rayHeight=timelineRay.offsetHeight;
+  const travel=Math.max(0,trackHeight-rayHeight);
+  const progressRange=rect.height+viewportHeight*.56;
+  const progress=progressRange>0
+   ? Math.max(0,Math.min(1,(viewportHeight*.78-rect.top)/progressRange))
+   : 0;
+  timelineRay.style.transform='translate3d(0,'+(progress*travel)+'px,0)';
  }
  function requestTimelineRayUpdate(){
-  if(!progressFrame){
-   progressFrame=true;
-   requestAnimationFrame(updateTimelineRay);
-  }
+  if(!progressFrame)progressFrame=requestAnimationFrame(updateTimelineRay);
  }
  window.addEventListener('scroll',requestTimelineRayUpdate,{passive:true});
  window.addEventListener('resize',requestTimelineRayUpdate,{passive:true});
- updateTimelineRay();
+ window.addEventListener('load',requestTimelineRayUpdate,{once:true});
+ if('ResizeObserver' in window){
+  const rayResizeObserver=new ResizeObserver(requestTimelineRayUpdate);
+  rayResizeObserver.observe(timeline);
+ }
+ if(document.fonts?.ready)document.fonts.ready.then(requestTimelineRayUpdate);
+ requestTimelineRayUpdate();
 }
 
 /* Move a subtle, low-intensity neon pool with the pointer inside project cards. */
